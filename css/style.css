@@ -272,9 +272,12 @@ img {
   transition: var(--transition);
 }
 
+/* MODIFICAÇÃO: Menu Vertical para Mobile */
 .nav__list {
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem; /* Ajuste o espaçamento entre os itens */
+  text-align: center; /* Centraliza o texto */
 }
 
 .nav__link {
@@ -828,7 +831,7 @@ img {
 
 .footer__container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr; /* MODIFICADO: 1 coluna para mobile */
   gap: 3rem;
   text-align: center;
   max-width: 1200px;
@@ -839,7 +842,7 @@ img {
 .footer__column {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Centralizado para mobile */
 }
 
 .footer__text {
@@ -994,7 +997,7 @@ img {
   }
 }
 
-/* For medium devices */
+/* For medium devices (Tablet) */
 @media screen and (min-width: 568px) {
   .home__container,
   .about__container,
@@ -1022,9 +1025,15 @@ img {
     text-align: left;
   }
 
+  /* MODIFICADO: Rodapé para 2 colunas e alinhamento à esquerda */
   .footer__container {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+  
+  .footer__column {
+    align-items: flex-start;
+    text-align: left;
   }
 }
 
@@ -1068,8 +1077,10 @@ img {
     padding: 0;
   }
 
+  /* Retorna o menu para layout horizontal no desktop */
   .nav__list {
     display: flex;
+    flex-direction: row;
     column-gap: 2rem;
   }
 
@@ -1123,7 +1134,7 @@ img {
   }
 }
 
-/* For large devices */
+/* For large devices (Desktop) */
 @media screen and (min-width: 1024px) {
   .home__container,
   .about__container,
@@ -1135,7 +1146,8 @@ img {
     grid-template-columns: repeat(2, 1fr);
     gap: 3rem;
   }
-
+  
+  /* MODIFICADO: Rodapé para 3 colunas em desktop */
   .footer__container {
     grid-template-columns: repeat(3, 1fr);
   }
