@@ -194,7 +194,46 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-/*==================== INTERSECTION OBSERVER FOR ANIMATIONS ====================*/
+/*==================== STATS COUNT UP ANIMATION ====================*/
+function animateCountUp(el, targetNumber, duration = 2000) {
+    let start = 0;
+    // Pega o sufixo (ex: '+') do atributo data-original
+    const plusSign = el.dataset.original && el.dataset.original.includes('+') ? '+' : '';
+    const step = targetNumber / (duration / 16); // ~60fps
+    
+    function updateCount() {
+        start += step;
+        if (start < targetNumber) {
+            // Usa toLocaleString para formatar números grandes (ex: 1.000)
+            el.textContent = Math.ceil(start).toLocaleString('pt-BR') + plusSign;
+            requestAnimationFrame(updateCount);
+        } else {
+            el.textContent = targetNumber.toLocaleString('pt-BR') + plusSign;
+        }
+    }
+    updateCount();
+}
+
+const statsObserverOptions = {
+    threshold: 0.7 
+};
+
+// Observer para Contagem
+const statsObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const statElements = entry.target.querySelectorAll('.stat__number');
+            statElements.forEach(statEl => {
+                const target = parseInt(statEl.dataset.target);
+                animateCountUp(statEl, target);
+            });
+            observer.unobserve(entry.target); // Para de observar após a contagem
+        }
+    });
+}, statsObserverOptions);
+
+
+/*==================== INTERSECTION OBSERVER FOR FADE-IN ANIMATIONS ====================*/
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -210,8 +249,15 @@ const observer = new IntersectionObserver((entries) => {
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', function() {
-    const elementsToAnimate = document.querySelectorAll('.specialty__card, .education__item, .stat__item, .contact__item');
+    // MODIFICAÇÃO: Removido .stat__item da lista de fade-in para usar o statsObserver
+    const elementsToAnimate = document.querySelectorAll('.specialty__card, .education__item, .contact__item');
     elementsToAnimate.forEach(el => observer.observe(el));
+    
+    // Inicia o observer de contagem
+    const aboutSection = document.querySelector('.about');
+    if (aboutSection) {
+        statsObserver.observe(aboutSection);
+    }
 });
 
 /*==================== FORM VALIDATION ====================*/
