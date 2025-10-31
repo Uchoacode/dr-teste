@@ -1103,15 +1103,7 @@ section[id] {
 
 /* NOVO: CORREÇÃO PARA BOTÃO FLUTUANTE (SITE SWITCHER) E EXIBIÇÃO DO CTA NO MOBILE */
 @media screen and (max-width: 767px) {
-    /* Garante que o botão de Agendar Consulta no Header seja exibido e formatado para mobile */
-    .nav__actions .btn {
-        display: flex !important; /* Sobrescreve o display: none padrão de desktop */
-        padding: 0.5rem 0.75rem; /* Ajusta o tamanho do botão para caber no cabeçalho */
-        font-size: var(--small-font-size);
-        /* Remove a box-shadow para o botão principal não ficar muito carregado no header */
-        box-shadow: none !important; 
-        transform: none !important;
-    }
+    /* O botão de Agendar Consulta foi removido do header */
     
     /* Torna o Site Switcher em um elemento flutuante no canto inferior esquerdo */
     .site-switcher {
@@ -1143,6 +1135,23 @@ section[id] {
          animation: none;
          opacity: 1;
          transform: none;
+    }
+    
+    /* Move o floating CTA para o canto inferior direito no mobile */
+    .floating-cta-container {
+        bottom: 1rem;
+        right: 1rem;
+        left: auto;
+    }
+    
+    .floating-cta-btn {
+        padding: 0.75rem 1rem; /* Reduz o tamanho do botão no mobile */
+        font-size: var(--small-font-size);
+    }
+    
+    .floating-cta-popup {
+        max-width: 200px;
+        font-size: var(--smaller-font-size);
     }
 }
 
@@ -1250,7 +1259,7 @@ section[id] {
   }
 
   .nav__actions .btn {
-    display: inline-flex;
+    display: none; /* Mantido display: none para o CTA da navegação */
   }
 
   /* CORREÇÃO: Ajusta o padding-top da home para compensar o header maior */
@@ -1585,7 +1594,122 @@ section[id] {
 
 /* Esconde o switch em telas pequenas, para priorizar o toggle do menu */
 @media screen and (max-width: 768px) {
-    .site-switcher {
-        /* display: none; -> REMOVIDO PARA O BOTÃO APARECER NO MOBILE */
-    }
+    /* O display: none foi removido, a responsividade do site-switcher é controlada no bloco acima */
 }
+
+/* ===== FLOATING CTA STYLES (NOVO) ===== */
+.floating-cta-container {
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    z-index: var(--z-fixed); /* Acima de tudo, mas abaixo do modal */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+    /* Inicia escondido */
+    opacity: 0; 
+    transform: translateX(100%);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.floating-cta-container.show-cta {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.floating-cta-btn {
+    padding: 1rem 1.5rem;
+    font-size: var(--normal-font-size);
+}
+
+/* Floating CTA Pop-up (Aparece acima do botão) */
+.floating-cta-popup {
+    background: var(--white-color);
+    color: var(--text-color);
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 250px;
+    position: relative;
+    border-left: 4px solid var(--primary-color);
+    
+    /* Inicia escondido */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none; /* Não interage quando invisível */
+}
+
+.floating-cta-popup.show-popup {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto; /* Permite interação quando visível */
+}
+
+.floating-cta-popup p {
+    margin: 0;
+    font-size: var(--small-font-size);
+}
+
+.popup__close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--text-color-light);
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.popup__close-btn:hover {
+    color: var(--text-color);
+}
+
+/* Triângulo / Seta para o botão */
+.floating-cta-popup::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid var(--white-color);
+}
+/* FIM FLOATING CTA STYLES */
+
+/* For medium devices (Tablet) */
+@media screen and (min-width: 568px) {
+  /* ... (rest of the media query) ... */
+}
+
+@media screen and (min-width: 768px) {
+  /* ... (rest of the media query) ... */
+  .scrollup {
+    right: 3rem;
+    bottom: 3rem; /* Posição no desktop */
+  }
+
+  .show-scroll {
+    bottom: 3rem;
+  }
+}
+
+/* For large devices (Desktop) */
+@media screen and (min-width: 1024px) {
+  /* ... (rest of the media query) ... */
+}
+
+@media screen and (min-width: 1200px) {
+  .specialties__container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ===== VIDEOS SECTION (Mantenha o resto das seções) ===== */
+/* ... (rest of the file remains unchanged) ... */
