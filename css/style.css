@@ -1101,6 +1101,51 @@ section[id] {
   }
 }
 
+/* NOVO: CORREÇÃO PARA BOTÃO FLUTUANTE (SITE SWITCHER) E EXIBIÇÃO DO CTA NO MOBILE */
+@media screen and (max-width: 767px) {
+    /* Garante que o botão de Agendar Consulta no Header seja exibido e formatado para mobile */
+    .nav__actions .btn {
+        display: flex !important; /* Sobrescreve o display: none padrão de desktop */
+        padding: 0.5rem 0.75rem; /* Ajusta o tamanho do botão para caber no cabeçalho */
+        font-size: var(--small-font-size);
+        /* Remove a box-shadow para o botão principal não ficar muito carregado no header */
+        box-shadow: none !important; 
+        transform: none !important;
+    }
+    
+    /* Torna o Site Switcher em um elemento flutuante no canto inferior esquerdo */
+    .site-switcher {
+        position: fixed;
+        bottom: 1rem;
+        left: 1rem;
+        z-index: 500; 
+        
+        /* Garante que o switch flutuante tenha a aparência completa */
+        display: flex; 
+        background-color: var(--white-color);
+        padding: 0.5rem 0.75rem; 
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        border-radius: 99px;
+        
+        /* Remove a margem que tinha no fluxo do header */
+        margin-right: 0 !important; 
+    }
+    
+    /* Ajusta o espaçamento na barra de ações */
+    .nav__actions {
+        justify-content: flex-end; 
+        gap: 0.5rem;
+    }
+    
+    /* Garante que o switch flutuante não seja afetado pelas animações globais */
+    .site-switcher.animate-fade-in-up {
+         animation: none;
+         opacity: 1;
+         transform: none;
+    }
+}
+
 /* For medium devices (Tablet) */
 @media screen and (min-width: 568px) {
   /* CORREÇÃO: Remove a margin-top extra, pois o header do desktop é menor */
