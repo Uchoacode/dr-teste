@@ -1480,3 +1480,67 @@ section[id] {
   animation: fadeInRight 0.8s ease-out forwards;
   will-change: transform, opacity;
 }
+
+/* ===== NOVO: SITE SWITCH STYLES ===== */
+.site-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--light-color); /* Fundo claro para contraste */
+    padding: 0.5rem 0.75rem;
+    border-radius: 99px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-right: var(--mb-0-5); /* Espaçamento antes do botão de agendamento */
+}
+
+.site-switcher .svg-icon {
+    font-size: 1.1rem;
+    color: var(--text-color-light);
+    transition: color 0.3s ease;
+}
+
+.site-switcher .switch-icon--active {
+    color: var(--primary-color);
+}
+
+.toggle-switch {
+    width: 40px;
+    height: 20px;
+    background-color: var(--primary-color);
+    border-radius: 99px;
+    padding: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-slider {
+    width: 14px;
+    height: 14px;
+    background-color: var(--white-color);
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+/* Estado Ativo (para mostrar que é o modo "Diabetes") */
+.site-switcher.active .toggle-slider {
+    transform: translateX(20px);
+    background-color: var(--accent-color); /* Cor de destaque para o estado "on" */
+}
+
+/* Quando ativo, o ícone esquerdo fica inativo e o direito ativo */
+.site-switcher.active .svg-icon:first-child {
+    color: var(--text-color-light);
+}
+
+.site-switcher.active .svg-icon:last-child {
+    color: var(--accent-color);
+}
+
+/* Esconde o switch em telas pequenas, para priorizar o toggle do menu */
+@media screen and (max-width: 768px) {
+    .site-switcher {
+        display: none;
+    }
+}

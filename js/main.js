@@ -518,6 +518,31 @@ function initCodeRain() {
     }, isMobile ? 420 : 520); 
 }
 
+/*==================== SITE SWITCH REDIRECTION ====================*/
+function initSiteSwitcher() {
+    const siteSwitcher = document.getElementById('site-switcher');
+    const switchToggle = document.getElementById('switch-toggle');
+
+    if (siteSwitcher && switchToggle) {
+        // Adiciona listener ao slider/botão de toggle
+        switchToggle.addEventListener('click', function(e) {
+            e.stopPropagation(); // Previne que o click suba e cause problemas
+
+            const redirectUrl = siteSwitcher.dataset.redirectUrl;
+
+            // 1. Adiciona a classe visualmente para a animação do slider
+            siteSwitcher.classList.add('active'); 
+            
+            // 2. Espera a animação do slider terminar (0.3s) e redireciona
+            // Isso garante a transição visual antes da navegação
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 300); 
+        });
+    }
+}
+
+
 /*==================== CONTACT FORM HANDLING ====================*/
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contact-form');
@@ -538,4 +563,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializa a chuva de códigos médica
     initCodeRain();
+
+    // Inicializa o Site Switch
+    initSiteSwitcher();
 });
