@@ -161,9 +161,10 @@ function scrollUp(){
 window.addEventListener('scroll', scrollUp)
 
 /*==================== DARK LIGHT THEME ====================*/ 
-const themeButton = document.getElementById('theme-button')
+// Alterado: Agora usa o novo ID 'theme-switcher' para o clique
+const themeSwitcher = document.getElementById('theme-switcher') 
 const darkTheme = 'dark-theme'
-const iconTheme = 'uil-sun'
+const iconTheme = 'uil-sun' // Mantido para compatibilidade, mas não usado pelo novo switch
 
 // Previously selected topic (if user selected)
 const selectedTheme = localStorage.getItem('selected-theme')
@@ -171,16 +172,28 @@ const selectedIcon = localStorage.getItem('selected-icon')
 
 // We obtain the current theme that the interface has by validating the dark-theme class
 const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
-const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
+const getCurrentIcon = () => themeSwitcher ? '' : (document.querySelector('.nav__actions i[id="theme-button"]')?.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun') // Adaptação para o novo switch
 
 // We validate if the user previously chose a topic
 if (selectedTheme) {
   // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the dark
   document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
-  themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
+  // themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
 }
 
 // Activate / deactivate the theme manually with the button
+if(themeSwitcher) {
+    themeSwitcher.addEventListener('click', () => {
+        // Add or remove the dark theme
+        document.body.classList.toggle(darkTheme)
+        // We save the theme and the current theme that the user chose
+        localStorage.setItem('selected-theme', getCurrentTheme())
+        // O ícone não é mais salvo, pois é controlado pelo CSS
+    })
+}
+
+// Mantendo a lógica original do botão de tema se ele for usado em outro lugar (ex: no menu mobile, se for o caso)
+const themeButton = document.getElementById('theme-button')
 if(themeButton) {
     themeButton.addEventListener('click', () => {
         // Add or remove the dark / icon theme
@@ -491,4 +504,3 @@ if (scrollUpBtn) {
         });
     });
 }
-
