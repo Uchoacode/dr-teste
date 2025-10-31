@@ -148,23 +148,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const target = document.querySelector(targetId);
         
         if (target) {
-            // CORREÇÃO: Usa scrollIntoView para rolagem suave
+            // CORREÇÃO: Usa scrollIntoView para rolagem suave, 
+            // a compensação de cabeçalho agora é feita via CSS com scroll-margin-top
             target.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
-
-            // CORREÇÃO: Adiciona um ajuste para o cabeçalho fixo após a rolagem. 
-            // O CSS scroll-margin-top é uma solução melhor, mas este é um fallback JavaScript.
-            // Para não ter o salto, a melhor forma é usar scroll-margin-top no CSS.
-            /*
-            if(targetId !== '#home') {
-                setTimeout(() => {
-                    const headerHeight = document.getElementById('header').offsetHeight;
-                    window.scrollBy(0, -headerHeight);
-                }, 400); // 400ms após o início do smooth scroll
-            }
-            */
         }
     });
 });
@@ -215,7 +204,9 @@ function animateCountUp(el, targetNumber, duration = 2000) {
 }
 
 const statsObserverOptions = {
-    threshold: 0.7 
+    // Reduzido de 0.7 para 0.1 para que a contagem comece mais cedo no mobile
+    threshold: 0.1, 
+    rootMargin: '0px 0px -100px 0px' // Garante que a animação comece antes do elemento estar totalmente visível
 };
 
 // Observer para Contagem
@@ -249,9 +240,14 @@ const observer = new IntersectionObserver((entries) => {
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', function() {
-    // MODIFICAÇÃO: Removido .stat__item da lista de fade-in para usar o statsObserver
-    const elementsToAnimate = document.querySelectorAll('.specialty__card, .education__item, .contact__item');
-    elementsToAnimate.forEach(el => observer.observe(el));
+    // MODIFICAÇÃO: Incluído mais elementos para animação e configurado o estado inicial
+    const elementsToAnimate = document.querySelectorAll('.specialty__card, .education__item, .contact__item, .video__card, .stat__item');
+    elementsToAnimate.forEach(el => {
+        // Define o estado inicial e sugere otimização para animação mais fluida
+        el.style.opacity = '0';
+        el.style.willChange = 'transform, opacity';
+        observer.observe(el);
+    });
     
     // Inicia o observer de contagem
     const aboutSection = document.querySelector('.about');

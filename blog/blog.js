@@ -84,9 +84,11 @@ function filterPostsByCategory(category) {
         
         if (category === 'all' || postCategory === categoryMatch[category]) {
             post.style.display = 'block';
-            post.style.animation = 'fadeIn 0.5s ease';
+            // Usar a classe de animação para entrada fluida após a filtragem
+            post.classList.add('animate-fade-in-up'); 
         } else {
             post.style.display = 'none';
+            post.classList.remove('animate-fade-in-up');
         }
     });
 }
@@ -114,9 +116,10 @@ function loadMorePosts() {
         // Re-observe new posts for fade-in animation
         const newPosts = postsGrid.querySelectorAll('.post__item:not([data-observed])');
         newPosts.forEach(post => {
+            // Configuração inicial para a animação
             post.style.opacity = '0';
-            post.style.transform = 'translateY(20px)';
-            post.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            post.style.willChange = 'transform, opacity';
+            
             observer.observe(post);
             post.setAttribute('data-observed', 'true');
         });
@@ -332,6 +335,7 @@ function initSearch() {
                 if (title.includes(searchTerm) || category.includes(searchTerm)) {
                     post.style.display = 'block';
                 } else {
+                    // Adicionado uma animação de saída ao esconder para maior fluidez
                     post.style.display = searchTerm === '' ? 'block' : 'none';
                 }
             });
@@ -363,6 +367,7 @@ function initReadingProgress() {
                 background: var(--primary-color);
                 width: 0%;
                 transition: width 0.1s ease;
+                will-change: width; /* Otimização de performance */
             }
         `;
         
@@ -419,8 +424,9 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            // Usar a classe de animação definida no CSS principal
+            entry.target.classList.add('animate-fade-in-up');
+            entry.target.style.opacity = '1'; // Garantir visibilidade
         }
     });
 }, observerOptions);
@@ -429,9 +435,9 @@ const observer = new IntersectionObserver((entries) => {
 document.addEventListener('DOMContentLoaded', function() {
     const posts = document.querySelectorAll('.post__card, .post__item');
     posts.forEach(post => {
+        // Configura o estado inicial para que a animação possa ser aplicada
         post.style.opacity = '0';
-        post.style.transform = 'translateY(20px)';
-        post.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        post.style.willChange = 'transform, opacity'; // Otimização de performance
         observer.observe(post);
     });
 });
