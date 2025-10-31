@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog do Dr. Victor Almeida - Artigos sobre Diabetes, Tireóide, Emagrecimento e Endocrinologia">
+    <meta name="keywords" content="blog endocrinologia, diabetes, tireóide, emagrecimento, Dr Victor Almeida">
+    <meta name="author" content="Dr. Victor Almeida">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.drvictoralmeida.com.br/blog/">
+    <meta property="og:title" content="Blog - Dr. Victor Almeida Endocrinologista">
+    <meta property="og:description" content="Artigos sobre Diabetes, Tireóide, Emagrecimento e Endocrinologia">
+    <meta property="og:image" content="https://www.drvictoralmeida.com.br/assets/images/banner-hero.png">
+
+    <title>Blog - Dr. Victor Almeida | Endocrinologista</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/logo-circular.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <div class="nav__logo">
+                <a href="../">
+                    <img src="../assets/images/logo-nome-completo.png" alt="Dr. Victor Almeida" class="nav__logo-img">
+                </a>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="../#home" class="nav__link">Início</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="../#about" class="nav__link">Sobre</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="../#specialties" class="nav__link">Especialidades</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="./" class="nav__link active-link">Blog</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="../#contact" class="nav__link">Contato</a>
+                    </li>
+                </ul>
+                <div class="nav__close" id="nav-close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            
+            <div class="nav__actions">
+                <a href="../#contact" class="btn btn--primary">
+                    <i class="fas fa-calendar-alt"></i>
+                    Agendar Consulta
+                </a>
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+        <!-- Blog Hero -->
+        <section class="blog-hero section">
+            <div class="container">
+                <div class="blog-hero__content">
+                    <h1 class="blog-hero__title">
+                        Blog do Dr. Victor Almeida
+                    </h1>
+                    <p class="blog-hero__description">
+                        Artigos especializados sobre Diabetes, Doenças da Tireóide, Emagrecimento e Endocrinologia. 
+                        Informações confiáveis para cuidar melhor da sua saúde.
+                    </p>
+                    <div class="blog-hero__stats">
+                        <div class="stat">
+                            <span class="stat__number">7+</span>
+                            <span class="stat__label">Artigos</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__number">4</span>
+                            <span class="stat__label">Categorias</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__number">2x</span>
+                            <span class="stat__label">Por Mês</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Categories -->
+        <section class="blog-categories section">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title">Categorias</h2>
+                    <p class="section__subtitle">Explore nossos artigos por área de especialidade</p>
+                </div>
+                
+                <div class="categories__container grid">
+                    <div class="category__card" data-category="diabetes">
+                        <div class="category__icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3 class="category__title">Diabetes</h3>
+                        <p class="category__description">
+                            Artigos sobre diabetes tipo 1 e 2, controle glicêmico, tecnologias e tratamentos modernos.
+                        </p>
+                        <span class="category__count">2 artigos</span>
+                    </div>
+                    
+                    <div class="category__card" data-category="tireoide">
+                        <div class="category__icon">
+                            <i class="fas fa-lungs"></i>
+                        </div>
+                        <h3 class="category__title">Tireóide</h3>
+                        <p class="category__description">
+                            Hipotireoidismo, hipertireoidismo, nódulos e outros distúrbios da tireóide.
+                        </p>
+                        <span class="category__count">2 artigos</span>
+                    </div>
+                    
+                    <div class="category__card" data-category="emagrecimento">
+                        <div class="category__icon">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                        <h3 class="category__title">Emagrecimento</h3>
+                        <p class="category__description">
+                            Tratamento médico da obesidade, metabolismo e estratégias para perda de peso saudável.
+                        </p>
+                        <span class="category__count">2 artigos</span>
+                    </div>
+                    
+                    <div class="category__card" data-category="prevencao">
+                        <div class="category__icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="category__title">Prevenção</h3>
+                        <p class="category__description">
+                            Dicas de prevenção, check-ups, saúde hormonal e cuidados gerais com a saúde.
+                        </p>
+                        <span class="category__count">1 artigo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Posts -->
+        <section class="featured-posts section">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title">Artigos em Destaque</h2>
+                    <p class="section__subtitle">Os artigos mais lidos e importantes</p>
+                </div>
+                
+                <div class="posts__container grid">
+                    <article class="post__card featured">
+                        <div class="post__image">
+                            <img src="../assets/images/blog-diabetes-sinais.jpg" alt="10 Sinais de Diabetes" class="post__img">
+                            <div class="post__category">Diabetes</div>
+                        </div>
+                        <div class="post__content">
+                            <div class="post__meta">
+                                <span class="post__date">
+                                    <i class="fas fa-calendar"></i>
+                                    15 de Agosto, 2025
+                                </span>
+                                <span class="post__read-time">
+                                    <i class="fas fa-clock"></i>
+                                    5 min de leitura
+                                </span>
+                            </div>
+                            <h3 class="post__title">
+                                <a href="posts/10-sinais-diabetes-nao-pode-ignorar.html">
+                                    10 Sinais de Diabetes que Você Não Pode Ignorar
+                                </a>
+                            </h3>
+                            <p class="post__excerpt">
+                                Descubra os principais sintomas do diabetes que muitas vezes passam despercebidos. 
+                                Reconhecer estes sinais precocemente pode fazer toda a diferença no tratamento.
+                            </p>
+                            <div class="post__footer">
+                                <div class="post__author">
+                                    <img src="../assets/images/foto-3x4.jpeg" alt="Dr. Victor Almeida" class="author__img">
+                                    <span class="author__name">Dr. Victor Almeida</span>
+                                </div>
+                                <a href="posts/10-sinais-diabetes-nao-pode-ignorar.html" class="post__read-more">
+                                    Ler mais <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="post__card">
+                        <div class="post__image">
+                            <img src="../assets/images/blog-tireoide-sintomas.jpg" alt="Hipotireoidismo Sintomas" class="post__img">
+                            <div class="post__category">Tireóide</div>
+                        </div>
+                        <div class="post__content">
+                            <div class="post__meta">
+                                <span class="post__date">
+                                    <i class="fas fa-calendar"></i>
+                                    8 de Agosto, 2025
+                                </span>
+                                <span class="post__read-time">
+                                    <i class="fas fa-clock"></i>
+                                    7 min de leitura
+                                </span>
+                            </div>
+                            <h3 class="post__title">
+                                <a href="posts/hipotireoidismo-sintomas-despercebidos.html">
+                                    Hipotireoidismo: Sintomas que Muitas Vezes Passam Despercebidos
+                                </a>
+                            </h3>
+                            <p class="post__excerpt">
+                                O hipotireoidismo pode se manifestar de formas sutis. Conheça os sintomas menos óbvios 
+                                que podem indicar problemas na tireóide.
+                            </p>
+                            <div class="post__footer">
+                                <div class="post__author">
+                                    <img src="../assets/images/foto-3x4.jpeg" alt="Dr. Victor Almeida" class="author__img">
+                                    <span class="author__name">Dr. Victor Almeida</span>
+                                </div>
+                                <a href="posts/hipotireoidismo-sintomas-despercebidos.html" class="post__read-more">
+                                    Ler mais <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="post__card">
+                        <div class="post__image">
+                            <img src="../assets/images/blog-emagrecer-hormonios.jpg" alt="Hormônios e Peso" class="post__img">
+                            <div class="post__category">Emagrecimento</div>
+                        </div>
+                        <div class="post__content">
+                            <div class="post__meta">
+                                <span class="post__date">
+                                    <i class="fas fa-calendar"></i>
+                                    1 de Agosto, 2025
+                                </span>
+                                <span class="post__read-time">
+                                    <i class="fas fa-clock"></i>
+                                    6 min de leitura
+                                </span>
+                            </div>
+                            <h3 class="post__title">
+                                <a href="posts/por-que-nao-consigo-emagrecer-causas-hormonais.html">
+                                    Por que Não Consigo Emagrecer? Causas Hormonais
+                                </a>
+                            </h3>
+                            <p class="post__excerpt">
+                                Entenda como os hormônios podem estar sabotando seus esforços para emagrecer e 
+                                o que fazer para reverter essa situação.
+                            </p>
+                            <div class="post__footer">
+                                <div class="post__author">
+                                    <img src="../assets/images/foto-3x4.jpeg" alt="Dr. Victor Almeida" class="author__img">
+                                    <span class="author__name">Dr. Victor Almeida</span>
+                                </div>
+                                <a href="posts/por-que-nao-consigo-emagrecer-causas-hormonais.html" class="post__read-more">
+                                    Ler mais <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Posts -->
+        <section class="recent-posts section">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title">Artigos Recentes</h2>
+                    <p class="section__subtitle">Últimas publicações do blog</p>
+                </div>
+                
+                <div class="recent-posts__container">
+                    <article class="post__item">
+                        <div class="post__item-image">
+                            <img src="../assets/images/blog-glicose-casa.jpg" alt="Glicose em Casa" class="post__item-img">
+                        </div>
+                        <div class="post__item-content">
+                            <div class="post__item-category">Diabetes</div>
+                            <h4 class="post__item-title">
+                                <a href="posts/como-medir-glicose-casa-guia-completo.html">
+                                    Como Medir a Glicose em Casa: Guia Completo
+                                </a>
+                            </h4>
+                            <div class="post__item-meta">
+                                <span class="post__item-date">10 Ago 2025</span>
+                                <span class="post__item-read">4 min</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="post__item">
+                        <div class="post__item-image">
+                            <img src="../assets/images/blog-nodulos-tireoide.jpg" alt="Nódulos Tireóide" class="post__item-img">
+                        </div>
+                        <div class="post__item-content">
+                            <div class="post__item-category">Tireóide</div>
+                            <h4 class="post__item-title">
+                                <a href="posts/nodulos-tireoide-quando-preocupar.html">
+                                    Nódulos na Tireóide: Quando se Preocupar?
+                                </a>
+                            </h4>
+                            <div class="post__item-meta">
+                                <span class="post__item-date">5 Ago 2025</span>
+                                <span class="post__item-read">6 min</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="post__item">
+                        <div class="post__item-image">
+                            <img src="../assets/images/blog-metabolismo-lento.jpg" alt="Metabolismo Lento" class="post__item-img">
+                        </div>
+                        <div class="post__item-content">
+                            <div class="post__item-category">Emagrecimento</div>
+                            <h4 class="post__item-title">
+                                <a href="posts/metabolismo-lento-mito-realidade.html">
+                                    Metabolismo Lento: Mito ou Realidade?
+                                </a>
+                            </h4>
+                            <div class="post__item-meta">
+                                <span class="post__item-date">28 Jul 2025</span>
+                                <span class="post__item-read">5 min</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="post__item">
+                        <div class="post__item-image">
+                            <img src="../assets/images/blog-checkup-endocrino.jpg" alt="Check-up Endócrino" class="post__item-img">
+                        </div>
+                        <div class="post__item-content">
+                            <div class="post__item-category">Prevenção</div>
+                            <h4 class="post__item-title">
+                                <a href="posts/checkup-endocrinologico-quando-fazer.html">
+                                    Check-up Endocrinológico: Quando Fazer?
+                                </a>
+                            </h4>
+                            <div class="post__item-meta">
+                                <span class="post__item-date">20 Jul 2025</span>
+                                <span class="post__item-read">4 min</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="posts__load-more">
+                    <button class="btn btn--secondary" id="load-more-posts">
+                        <i class="fas fa-plus"></i>
+                        Carregar Mais Artigos
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="newsletter section">
+            <div class="container">
+                <div class="newsletter__container">
+                    <div class="newsletter__content">
+                        <h2 class="newsletter__title">Receba Novos Artigos</h2>
+                        <p class="newsletter__description">
+                            Cadastre-se para receber nossos novos artigos sobre endocrinologia diretamente no seu email.
+                        </p>
+                    </div>
+                    <div class="newsletter__form">
+                        <form class="newsletter__form-container" id="newsletter-form">
+                            <input type="email" placeholder="Seu melhor email" class="newsletter__input" required>
+                            <button type="submit" class="btn btn--primary">
+                                <i class="fas fa-paper-plane"></i>
+                                Cadastrar
+                            </button>
+                        </form>
+                        <p class="newsletter__privacy">
+                            <i class="fas fa-lock"></i>
+                            Seus dados estão seguros. Não enviamos spam.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__container">
+                <div class="footer__column">
+                    <h3 class="footer__title">Dr. Victor Almeida</h3>
+                    <p class="footer__text">Endocrinologista especialista em Diabetes, Tratamento de Peso e Doenças da Tireóide.</p>
+                </div>
+                
+                <div class="footer__column">
+                    <h3 class="footer__title">Especialidades</h3>
+                    <div class="footer__info">
+                        <p>Diabetes Tipo 1 e 2</p>
+                        <p>Tecnologias em Diabetes</p>
+                        <p>Tratamento de Peso</p>
+                        <p>Doenças da Tireóide</p>
+                    </div>
+                </div>
+                
+                <div class="footer__column">
+                    <h3 class="footer__title">Informações</h3>
+                    <div class="footer__info">
+                        <p>CRM-BA: 22586</p>
+                        <p>RQE: 13396</p>
+                        <p>Médico Endocrinologista</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p class="footer__copy">
+                    &copy; 2024 Dr. Victor Almeida. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Up -->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <!-- JavaScript -->
+    <script src="../js/main.js"></script>
+    <script src="blog.js"></script>
+</body>
+</html>
+
