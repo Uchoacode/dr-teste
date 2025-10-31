@@ -418,6 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /*==================== CONTACT FORM HANDLING ====================*/
+// ... (A função showNotification é redefinida no final, vou mantê-la como no código original, mas vou usar o showSiteSwitcherPopup para a notificação)
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
@@ -480,8 +481,6 @@ if (scrollUpBtn) {
     });
 }
 
-/* ... código JavaScript existente ... */
-
 /*==================== CODE RAIN EFFECT (MEDICAL WORDS) ====================*/
 function initCodeRain() {
     const container = document.getElementById("code-rain-container");
@@ -521,12 +520,11 @@ function initCodeRain() {
 /*==================== SITE SWITCH REDIRECTION ====================*/
 function initSiteSwitcher() {
     const siteSwitcher = document.getElementById('site-switcher');
-    const switchToggle = document.getElementById('switch-toggle');
 
-    if (siteSwitcher && switchToggle) {
-        // Adiciona listener ao slider/botão de toggle
-        switchToggle.addEventListener('click', function(e) {
-            e.stopPropagation(); // Previne que o click suba e cause problemas
+    if (siteSwitcher) {
+        // Adiciona listener ao componente completo
+        siteSwitcher.addEventListener('click', function(e) {
+            e.stopPropagation();
 
             const redirectUrl = siteSwitcher.dataset.redirectUrl;
 
@@ -534,12 +532,108 @@ function initSiteSwitcher() {
             siteSwitcher.classList.add('active'); 
             
             // 2. Espera a animação do slider terminar (0.3s) e redireciona
-            // Isso garante a transição visual antes da navegação
             setTimeout(() => {
                 window.location.href = redirectUrl;
             }, 300); 
         });
     }
+}
+
+/*==================== SITE SWITCHER POPUP (NOVO) ====================*/
+
+function showSiteSwitcherPopup(message, redirectUrl, intervalId) {
+    const notificationId = 'switcher-popup-' + Date.now();
+    const notification = document.createElement('div');
+    
+    // Conteúdo minimalista com emoji
+    notification.innerHTML = `<span style="display: flex; align-items: center; gap: 0.5rem; justify-content: flex-start;">💡 ${message}</span>`;
+    notification.id = notificationId;
+    
+    // Estilo minimalista, harmônico e fixo no canto inferior direito
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        max-width: 280px;
+        background: var(--primary-color);
+        color: var(--white-color);
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        z-index: 1000;
+        cursor: pointer;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animação de entrada
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+    }, 50);
+
+    // Redireciona e limpa o intervalo ao clicar
+    notification.addEventListener('click', function() {
+        if (intervalId) clearInterval(intervalId);
+        window.location.href = redirectUrl;
+        notification.remove();
+    });
+
+    // Animação e remoção automática após 4 segundos
+    setTimeout(() => {
+        // Verifica se ainda está na tela antes de tentar remover
+        if (document.getElementById(notificationId)) {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(20px)';
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, 4000); 
+}
+
+function initSiteSwitcherNotification() {
+    const siteSwitcher = document.getElementById('site-switcher');
+    
+    if (!siteSwitcher) return; 
+    const redirectUrl = siteSwitcher.dataset.redirectUrl;
+    if (!redirectUrl) return;
+
+    let count = 0;
+    const maxCount = 2; // Aparece duas vezes
+    const intervalTime = 5000; // 5 segundos de intervalo entre as aparições
+    const message = 'Conheça o DrDiabetes! Clique aqui para o portal especializado.';
+    let interval;
+
+    function showAndTrackPopup() {
+        // Se já exibiu o número máximo, limpa e sai
+        if (count >= maxCount) {
+            if (interval) clearInterval(interval);
+            return;
+        }
+        
+        // Passa o ID do intervalo para que o pop-up possa limpá-lo ao ser clicado
+        showSiteSwitcherPopup(message, redirectUrl, interval);
+        count++;
+        
+        // Se esta foi a última exibição (2ª), limpa o intervalo
+        if (count === maxCount && interval) {
+             clearInterval(interval);
+        }
+    }
+
+    // Primeira exibição após 2 segundos do carregamento (requisito de timing)
+    setTimeout(() => {
+        showAndTrackPopup();
+        
+        // Define o intervalo para a repetição (5s após a 1ª exibição)
+        if (maxCount > 1) {
+             interval = setInterval(showAndTrackPopup, intervalTime);
+        }
+    }, 2000); 
 }
 
 
@@ -566,4 +660,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializa o Site Switch
     initSiteSwitcher();
+    
+    // NOVO: Inicializa a notificação do Site Switcher
+    initSiteSwitcherNotification();
 });

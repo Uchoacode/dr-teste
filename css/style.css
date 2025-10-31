@@ -1541,6 +1541,6 @@ section[id] {
 /* Esconde o switch em telas pequenas, para priorizar o toggle do menu */
 @media screen and (max-width: 768px) {
     .site-switcher {
-        display: none;
+        /* display: none; -> REMOVIDO PARA O BOTÃO APARECER NO MOBILE */
     }
 }
