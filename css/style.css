@@ -114,6 +114,7 @@ img {
   height: auto;
 }
 
+
 /* ===== BASE SVG ICONS STYLES ===== */
 .svg-icon {
     width: 1.1em;
@@ -121,6 +122,46 @@ img {
     vertical-align: -0.125em; /* Better alignment for text-level icons */
     fill: currentColor;
     flex-shrink: 0;
+}
+
+/* ... código CSS existente ... */
+
+/* ===== CODE RAIN EFFECT (MEDICAL WORDS) ===== */
+#code-rain-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0; /* Fica atrás do conteúdo */
+}
+.code-snippet {
+  position: absolute;
+  font-family: var(--body-font);
+  color: var(--primary-color); 
+  opacity: 0.08; /* Super sutil para não atrapalhar a leitura */
+  font-size: 0.8rem;
+  animation: floatUp 20s linear infinite;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+  will-change: transform;
+  transition: color 0.5s, opacity 0.5s;
+}
+
+/* Animação de flutuação e rotação */
+@keyframes floatUp {
+  from { transform: translateY(100vh) rotate(5deg); }
+  to { transform: translateY(-100px) rotate(-5deg); }
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 768px) {
+  .code-snippet {
+      opacity: 0.04; /* Ainda mais sutil no mobile */
+  }
 }
 
 /* Specific size adjustments for containers */

@@ -437,3 +437,63 @@ if (scrollUpBtn) {
         });
     });
 }
+
+/* ... código JavaScript existente ... */
+
+/*==================== CODE RAIN EFFECT (MEDICAL WORDS) ====================*/
+function initCodeRain() {
+    const container = document.getElementById("code-rain-container");
+    if (!container) return;
+    
+    // Termos médicos e endocrinológicos para a chuva de códigos
+    const snippets = [
+        "Diabetes", "Tireóide", "Insulina", "Glicemia", "Hormônio", 
+        "Endócrino", "Metabolismo", "T3 Livre", "T4 Livre", "TSH", 
+        "Check-up", "Glucagon", "Cortisol", "Obesidade", "Hipófise", 
+        "Neuropatia", "Retinopatia", "Colesterol", "Triglicerídeos"
+    ];
+    
+    const isMobile = window.innerWidth <= 768;
+    function randBetween(min, max) { return Math.random() * (max - min) + min; }
+    
+    // Cria um novo termo caindo a cada 420-520 milissegundos
+    setInterval(() => {
+        const snippet = document.createElement("div");
+        snippet.classList.add("code-snippet");
+        // Seleciona um termo aleatório da lista
+        snippet.textContent = snippets[Math.floor(Math.random() * snippets.length)];
+        
+        // Define a posição horizontal e a duração da animação (velocidade)
+        const leftVw = Math.min(98, Math.max(2, randBetween(0, 100)));
+        snippet.style.left = leftVw + "vw";
+        snippet.style.animationDuration = randBetween(isMobile ? 12 : 15, isMobile ? 20 : 25) + "s";
+        snippet.style.fontSize = randBetween(isMobile ? 0.9 : 0.8, isMobile ? 1.3 : 1.2) + "rem";
+        
+        container.appendChild(snippet);
+        
+        // Remove o elemento da DOM após a queda para manter a performance
+        setTimeout(() => { snippet.remove(); }, 26000);
+    }, isMobile ? 420 : 520); 
+}
+
+/*==================== CONTACT FORM HANDLING ====================*/
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateForm(this)) {
+                // Here you would typically send the form data to a server
+                // For now, we'll just show a success message
+                showNotification('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
+                this.reset();
+            } else {
+                showNotification('Por favor, preencha todos os campos obrigatórios corretamente.', 'error');
+            }
+        });
+    }
+    
+    // Inicializa a chuva de códigos médica
+    initCodeRain();
+});
