@@ -90,6 +90,12 @@
     color: white;
 }
 
+/* New: Adjust SVG size inside category icon */
+.category__icon .svg-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
 .category__title {
     font-size: 1.5rem;
     font-weight: 600;
@@ -182,8 +188,11 @@
     color: var(--text-color-light);
 }
 
-.post__meta i {
+/* New: Adjust SVG margin inside post meta */
+.post__meta .svg-icon {
     margin-right: 0.5rem;
+    width: 0.875em;
+    height: 0.875em;
 }
 
 .post__title {
@@ -511,4 +520,3 @@
     content: "Check-up\AImagem em breve";
     white-space: pre;
 }
-

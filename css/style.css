@@ -113,6 +113,44 @@ img {
   height: auto;
 }
 
+/* ===== BASE SVG ICONS STYLES ===== */
+.svg-icon {
+    width: 1.1em;
+    height: 1.1em;
+    vertical-align: -0.125em; /* Better alignment for text-level icons */
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+/* Specific size adjustments for containers */
+.btn .svg-icon,
+.credential .svg-icon,
+.video__stats .svg-icon,
+.nav__toggle .svg-icon,
+.nav__close .svg-icon {
+    width: 1em;
+    height: 1em;
+}
+
+.education__icon .svg-icon,
+.specialty__icon .svg-icon,
+.contact__icon .svg-icon,
+.home__scroll-button .svg-icon,
+.scrollup .svg-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/* Spinner animation */
+.icon--spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* ===== REUSABLE CSS CLASSES ===== */
 .container {
   max-width: 1200px;
@@ -358,7 +396,7 @@ img {
   font-size: var(--small-font-size);
 }
 
-.credential i {
+.credential .svg-icon {
   color: var(--primary-color);
 }
 
@@ -638,7 +676,7 @@ img {
   font-size: var(--small-font-size);
 }
 
-.specialty__features i {
+.specialty__features .svg-icon {
   color: var(--primary-color);
   font-size: 0.875rem;
 }
@@ -1206,7 +1244,7 @@ img {
   gap: 0.25rem;
 }
 
-.video__stats i {
+.video__stats .svg-icon {
   font-size: 0.875rem;
 }
 
@@ -1313,4 +1351,3 @@ img {
 .animate-fade-in-right {
   animation: fadeInRight 0.8s ease-out;
 }
-

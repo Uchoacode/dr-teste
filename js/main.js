@@ -91,39 +91,6 @@ modalCloses.forEach((modalClose) => {
     })
 })
 
-/*==================== PORTFOLIO SWIPER  ====================*/
-let swiperPortfolio = new Swiper(".portfolio__container", {
-    cssMode: true,
-    loop: true,
-
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-    },
-});
-
-/*==================== TESTIMONIAL ====================*/
-let swiperTestimonial = new Swiper(".testimonial__container", {
-    loop: true,
-    grabCursor: true,
-    spaceBetween: 48,
-
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-        dynamicBullets: true,
-    },
-    breakpoints:{
-        568:{
-            slidesPerView: 2,
-        }
-    }
-});
-
 /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
 const sections = document.querySelectorAll('section[id]')
 
@@ -160,38 +127,6 @@ function scrollUp(){
 }
 window.addEventListener('scroll', scrollUp)
 
-/*==================== DARK LIGHT THEME ====================*/ 
-const themeButton = document.getElementById('theme-button')
-const darkTheme = 'dark-theme'
-const iconTheme = 'uil-sun'
-
-// Previously selected topic (if user selected)
-const selectedTheme = localStorage.getItem('selected-theme')
-const selectedIcon = localStorage.getItem('selected-icon')
-
-// We obtain the current theme that the interface has by validating the dark-theme class
-const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
-const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
-
-// We validate if the user previously chose a topic
-if (selectedTheme) {
-  // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the dark
-  document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
-  themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
-}
-
-// Activate / deactivate the theme manually with the button
-if(themeButton) {
-    themeButton.addEventListener('click', () => {
-        // Add or remove the dark / icon theme
-        document.body.classList.toggle(darkTheme)
-        themeButton.classList.toggle(iconTheme)
-        // We save the theme and the current icon that the user chose
-        localStorage.setItem('selected-theme', getCurrentTheme())
-        localStorage.setItem('selected-icon', getCurrentIcon())
-    })
-}
-
 /*==================== SMOOTH SCROLLING ====================*/
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -207,21 +142,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 /*==================== SCROLL REVEAL ANIMATION ====================*/
-const sr = ScrollReveal({
-    origin: 'top',
-    distance: '60px',
-    duration: 2000,
-    delay: 200,
-    // reset: true
-});
-
-// Check if ScrollReveal is available
-if (typeof ScrollReveal !== 'undefined') {
-    sr.reveal('.home__data, .about__img, .skills__subtitle, .skills__text', {});
-    sr.reveal('.home__img, .about__data, .skills__content, .portfolio__img', {delay: 400});
-    sr.reveal('.home__social-icon', {interval: 200});
-    sr.reveal('.skills__data, .work__img, .contact__input', {interval: 200});
-}
+// Removed ScrollReveal initialization block as it is not included in the provided files.
 
 /*==================== TYPING ANIMATION ====================*/
 function typeWriter(element, text, speed = 100) {
@@ -491,4 +412,3 @@ if (scrollUpBtn) {
         });
     });
 }
-

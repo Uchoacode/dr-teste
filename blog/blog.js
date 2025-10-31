@@ -1,3 +1,20 @@
+// Utility function to get SVG markup
+function getSvgIcon(iconName, classes = 'svg-icon') {
+    const iconPaths = {
+        'times': 'M12 10.586l4.243-4.243a1 1 0 111.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 011.414-1.414L12 10.586z',
+        'plus': 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z',
+        'spinner': 'M12 4V2.01A9.95 9.95 0 002 12h2a8 8 0 1116 0h2A9.95 9.95 0 0012 4z',
+        'check-circle': 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z',
+        'exclamation-circle': 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z',
+        'info-circle': 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'
+    };
+
+    const path = iconPaths[iconName] || '';
+    if (!path) return '';
+    return `<svg class="${classes}" viewBox="0 0 24 24" fill="currentColor"><path d="${path}"/></svg>`;
+}
+
+
 /*===== BLOG FUNCTIONALITY =====*/
 
 // Category filtering
@@ -76,11 +93,11 @@ function filterPostsByCategory(category) {
 
 // Load more posts (simulate loading)
 function loadMorePosts() {
-    const postsGrid = document.querySelector('.posts__grid');
+    const postsGrid = document.querySelector('.recent-posts__container'); // Updated selector based on HTML
     const loadMoreBtn = document.getElementById('load-more-posts');
     
-    // Simulate loading
-    loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Carregando...';
+    // Simulate loading with SVG spinner
+    loadMoreBtn.innerHTML = `${getSvgIcon('spinner', 'svg-icon icon--spin')} Carregando...`;
     loadMoreBtn.disabled = true;
     
     setTimeout(() => {
@@ -88,11 +105,22 @@ function loadMorePosts() {
         const morePosts = createMorePosts();
         postsGrid.insertAdjacentHTML('beforeend', morePosts);
         
-        // Reset button
-        loadMoreBtn.innerHTML = '<i class="fas fa-plus"></i> Carregar Mais Artigos';
+        // Reset button with Plus SVG
+        loadMoreBtn.innerHTML = `${getSvgIcon('plus')} Carregar Mais Artigos`;
         loadMoreBtn.disabled = false;
         
         showNotification('Mais artigos carregados!', 'info');
+        
+        // Re-observe new posts for fade-in animation
+        const newPosts = postsGrid.querySelectorAll('.post__item:not([data-observed])');
+        newPosts.forEach(post => {
+            post.style.opacity = '0';
+            post.style.transform = 'translateY(20px)';
+            post.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(post);
+            post.setAttribute('data-observed', 'true');
+        });
+        
     }, 1500);
 }
 
@@ -156,20 +184,24 @@ function createMorePosts() {
 
 // Show notification
 function showNotification(message, type = 'info') {
+    const iconName = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+    const icon = getSvgIcon(iconName, 'svg-icon');
+    const closeIcon = getSvgIcon('times', 'svg-icon');
+
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification--${type}`;
     notification.innerHTML = `
         <div class="notification__content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+            ${icon}
             <span>${message}</span>
         </div>
         <button class="notification__close">
-            <i class="fas fa-times"></i>
+            ${closeIcon}
         </button>
     `;
     
-    // Add styles if not already added
+    // Add styles if not already added (assuming base notification styles are in CSS)
     if (!document.querySelector('#notification-styles')) {
         const styles = document.createElement('style');
         styles.id = 'notification-styles';
@@ -210,15 +242,17 @@ function showNotification(message, type = 'info') {
                 flex: 1;
             }
             
-            .notification__content i {
+            .notification__content .svg-icon {
                 color: var(--primary-color);
+                width: 1.25rem;
+                height: 1.25rem;
             }
             
-            .notification--success .notification__content i {
+            .notification--success .notification__content .svg-icon {
                 color: #10b981;
             }
             
-            .notification--error .notification__content i {
+            .notification--error .notification__content .svg-icon {
                 color: #ef4444;
             }
             
@@ -228,6 +262,11 @@ function showNotification(message, type = 'info') {
                 cursor: pointer;
                 color: var(--text-color-light);
                 padding: 0.25rem;
+            }
+
+            .notification__close .svg-icon {
+                width: 1em;
+                height: 1em;
             }
             
             .notification__close:hover {
@@ -396,4 +435,3 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(post);
     });
 });
-
