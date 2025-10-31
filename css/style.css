@@ -83,7 +83,8 @@ html {
 }
 
 body {
-  margin: 0 0 var(--header-height) 0;
+  /* CORREÇÃO: Adiciona margin-top para o conteúdo não ficar sob o header no mobile */
+  margin: var(--header-height) 0 0 0;
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   background-color: var(--white-color);
@@ -239,11 +240,12 @@ img {
 .header {
   width: 100%;
   position: fixed;
-  bottom: 0;
+  /* CORREÇÃO: Fica no topo em vez de bottom */
+  top: 0;
   left: 0;
   z-index: var(--z-fixed);
   background-color: var(--white-color);
-  box-shadow: 0 -1px 4px var(--shadow-color);
+  box-shadow: 0 1px 4px var(--shadow-color); /* Sombra para baixo */
   transition: var(--transition);
 }
 
@@ -261,30 +263,31 @@ img {
 }
 
 .nav__menu {
+  /* CORREÇÃO: Desliza da esquerda (lateral) no mobile */
   position: fixed;
-  bottom: -100%;
+  top: 0;
   left: 0;
-  width: 100%;
+  width: 70%; /* Largura do menu mobile */
+  height: 100vh;
   background-color: var(--white-color);
-  padding: 2rem 1.5rem 4rem;
-  box-shadow: 0 -1px 4px var(--shadow-color);
-  border-radius: 1.5rem 1.5rem 0 0;
-  transition: var(--transition);
+  padding: 4rem 1.5rem 4rem;
+  box-shadow: 1px 0 4px var(--shadow-color);
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%); /* Esconde à esquerda */
 }
 
-/* MODIFICAÇÃO: Menu Vertical para Mobile */
 .nav__list {
   display: flex;
   flex-direction: column;
-  row-gap: 1.5rem; /* Ajuste o espaçamento entre os itens */
-  text-align: center; /* Centraliza o texto */
+  row-gap: 2rem;
+  /* CORREÇÃO: Alinhamento à esquerda no menu que desliza */
+  text-align: left; 
 }
 
 .nav__link {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  font-size: var(--small-font-size);
+  font-size: var(--normal-font-size);
   color: var(--text-color);
   font-weight: var(--font-medium);
   transition: var(--transition);
@@ -295,9 +298,10 @@ img {
 }
 
 .nav__close {
+  /* CORREÇÃO: Posicionamento no topo do menu lateral */
   position: absolute;
-  right: 1.3rem;
-  bottom: 0.5rem;
+  right: 1.5rem;
+  top: 1.5rem;
   font-size: 1.5rem;
   cursor: pointer;
   color: var(--primary-color);
@@ -324,8 +328,9 @@ img {
 }
 
 /* Show menu */
-.show-menu {
-  bottom: 0;
+.open-menu {
+  /* CORREÇÃO: Mostra deslizando para a direita */
+  transform: translateX(0);
 }
 
 /* Active link */
@@ -333,9 +338,8 @@ img {
   color: var(--primary-color) !important;
 }
 
-/* Change background header */
+/* Change background header - NÃO É MAIS NECESSÁRIO, MAS MANTIDO POR CONSISTÊNCIA */
 .scroll-header {
-  bottom: initial;
   top: 0;
   box-shadow: 0 1px 4px var(--shadow-color);
 }
@@ -343,8 +347,9 @@ img {
 /* ===== HOME ===== */
 .home {
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  padding-top: 7rem;
-  min-height: 100vh;
+  /* CORREÇÃO: Remove padding-top extra, pois o body já tem margin-top */
+  padding-top: 3rem; 
+  min-height: calc(100vh - var(--header-height));
   display: flex;
   align-items: center;
 }
@@ -451,26 +456,11 @@ img {
   opacity: 0;
 }
 
+/* CORREÇÃO: Removido home__scroll, mas deixo o estilo se for usado em outro lugar */
 .home__scroll {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  display: none; 
 }
 
-.home__scroll-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  background: var(--white-color);
-  color: var(--primary-color);
-  box-shadow: 0 4px 12px var(--shadow-color);
-  font-size: 1.2rem;
-  animation: bounce 2s infinite;
-}
 
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
@@ -931,7 +921,8 @@ img {
 .scrollup {
   position: fixed;
   right: 1rem;
-  bottom: -20%;
+  /* CORREÇÃO: Posição do scrollup no mobile */
+  bottom: 1rem; 
   background: var(--gradient-primary);
   opacity: 0.8;
   padding: 0.3rem;
@@ -945,6 +936,9 @@ img {
   height: 3rem;
   color: var(--white-color);
   font-size: 1.2rem;
+  /* Esconde no início */
+  transform: translateY(100px); 
+  opacity: 0;
 }
 
 .scrollup:hover {
@@ -954,8 +948,10 @@ img {
 }
 
 /* Show scroll */
+/* CORREÇÃO: Animação para mostrar o botão */
 .show-scroll {
-  bottom: 5rem;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ===== MEDIA QUERIES ===== */
@@ -967,6 +963,7 @@ img {
   }
 
   .nav__menu {
+    width: 80%; /* Aumenta a largura em telas muito pequenas */
     padding: 2rem 0.25rem 4rem;
   }
 
@@ -999,6 +996,11 @@ img {
 
 /* For medium devices (Tablet) */
 @media screen and (min-width: 568px) {
+  /* CORREÇÃO: Remove a margin-top extra, pois o header do desktop é menor */
+  body {
+    margin: 0; 
+  }
+
   .home__container,
   .about__container,
   .contact__container {
@@ -1043,19 +1045,15 @@ img {
     margin-right: auto;
   }
 
-  body {
-    margin: 0;
-  }
-
   .section {
     padding: 6rem 0 2rem;
   }
-
+  
+  /* CORREÇÃO: Estilo do header no desktop */
   .header {
     top: 0;
     bottom: initial;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 4px var(--shadow-color);
   }
 
   .header,
@@ -1064,17 +1062,22 @@ img {
     padding: 0 1rem;
   }
 
+  /* CORREÇÃO: Aumenta a altura do nav no desktop */
   .nav {
-    height: calc(var(--header-height) + 1.5rem);
+    height: calc(var(--header-height) + 1.5rem); 
     column-gap: 1rem;
   }
 
   .nav__menu {
     position: initial;
+    width: auto;
+    height: auto;
+    transform: none;
     background-color: transparent;
     box-shadow: none;
     border-radius: 0;
     padding: 0;
+    transition: none;
   }
 
   /* Retorna o menu para layout horizontal no desktop */
@@ -1098,8 +1101,9 @@ img {
     display: inline-flex;
   }
 
+  /* CORREÇÃO: Ajusta o padding-top da home para compensar o header maior */
   .home {
-    padding-top: 8rem;
+    padding-top: calc(var(--header-height) + 1.5rem + 1rem); 
   }
 
   .home__container {
@@ -1127,6 +1131,7 @@ img {
 
   .scrollup {
     right: 3rem;
+    bottom: 3rem; /* Posição no desktop */
   }
 
   .show-scroll {
@@ -1159,7 +1164,7 @@ img {
   }
 }
 
-/* ===== VIDEOS SECTION ===== */
+/* ===== VIDEOS SECTION (Mantenha o resto das seções) ===== */
 .videos {
   background: var(--light-color);
   padding: 5rem 0;

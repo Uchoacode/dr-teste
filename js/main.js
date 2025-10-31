@@ -7,7 +7,8 @@ const navMenu = document.getElementById('nav-menu'),
 /* Validate if constant exists */
 if(navToggle){
     navToggle.addEventListener('click', () =>{
-        navMenu.classList.add('show-menu')
+        // CORREÇÃO: Usa a classe 'open-menu' para abrir o menu lateral
+        navMenu.classList.add('open-menu')
     })
 }
 
@@ -15,7 +16,8 @@ if(navToggle){
 /* Validate if constant exists */
 if(navClose){
     navClose.addEventListener('click', () =>{
-        navMenu.classList.remove('show-menu')
+        // CORREÇÃO: Usa a classe 'open-menu' para fechar o menu lateral
+        navMenu.classList.remove('open-menu')
     })
 }
 
@@ -24,8 +26,9 @@ const navLink = document.querySelectorAll('.nav__link')
 
 function linkAction(){
     const navMenu = document.getElementById('nav-menu')
-    // When we click on each nav__link, we remove the show-menu class
-    navMenu.classList.remove('show-menu')
+    // When we click on each nav__link, we remove the open-menu class
+    // CORREÇÃO: Remove a classe 'open-menu'
+    navMenu.classList.remove('open-menu')
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
 
@@ -99,22 +102,31 @@ function scrollActive(){
 
     sections.forEach(current =>{
         const sectionHeight = current.offsetHeight
-        const sectionTop = current.offsetTop - 50;
+        // CORREÇÃO: Ajusta offsetTop para o novo header fixo no topo
+        // Usa a altura do header como margem
+        const sectionTop = current.offsetTop - document.getElementById('header').offsetHeight - 20; 
         sectionId = current.getAttribute('id')
 
         if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
-        }else{
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+            const activeLink = document.querySelector('.nav__menu a[href*=' + sectionId + ']');
+            if(activeLink) {
+                // Remove active-link de todos
+                document.querySelectorAll('.nav__menu a').forEach(a => a.classList.remove('active-link'));
+                // Adiciona a active-link ao link correto
+                activeLink.classList.add('active-link');
+            }
         }
     })
 }
 window.addEventListener('scroll', scrollActive)
+// Executa no load para o link inicial ser ativo
+document.addEventListener('DOMContentLoaded', scrollActive);
+
 
 /*==================== CHANGE BACKGROUND HEADER ====================*/ 
 function scrollHeader(){
     const nav = document.getElementById('header')
-    // When the scroll is greater than 200 viewport height, add the scroll-header class to the header tag
+    // When the scroll is greater than 80 viewport height, add the scroll-header class to the header tag
     if(this.scrollY >= 80) nav.classList.add('scroll-header'); else nav.classList.remove('scroll-header')
 }
 window.addEventListener('scroll', scrollHeader)
@@ -123,6 +135,7 @@ window.addEventListener('scroll', scrollHeader)
 function scrollUp(){
     const scrollUp = document.getElementById('scroll-up');
     // When the scroll is higher than 560 viewport height, add the show-scroll class to the a tag with the scroll-top class
+    // CORREÇÃO: A classe de mostrar agora usa 'show-scroll' (já estava no CSS, mas o valor de bottom foi corrigido lá)
     if(this.scrollY >= 560) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
 }
 window.addEventListener('scroll', scrollUp)
@@ -131,18 +144,30 @@ window.addEventListener('scroll', scrollUp)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const targetId = this.getAttribute('href');
+        const target = document.querySelector(targetId);
+        
         if (target) {
+            // CORREÇÃO: Usa scrollIntoView para rolagem suave
             target.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
+
+            // CORREÇÃO: Adiciona um ajuste para o cabeçalho fixo após a rolagem. 
+            // O CSS scroll-margin-top é uma solução melhor, mas este é um fallback JavaScript.
+            // Para não ter o salto, a melhor forma é usar scroll-margin-top no CSS.
+            /*
+            if(targetId !== '#home') {
+                setTimeout(() => {
+                    const headerHeight = document.getElementById('header').offsetHeight;
+                    window.scrollBy(0, -headerHeight);
+                }, 400); // 400ms após o início do smooth scroll
+            }
+            */
         }
     });
 });
-
-/*==================== SCROLL REVEAL ANIMATION ====================*/
-// Removed ScrollReveal initialization block as it is not included in the provided files.
 
 /*==================== TYPING ANIMATION ====================*/
 function typeWriter(element, text, speed = 100) {
