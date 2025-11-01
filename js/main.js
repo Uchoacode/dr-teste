@@ -599,6 +599,76 @@ function initFloatingCta() {
     }
 }
 
+/*==================== NEWSLETTER POP-UP MODAL (NOVO) ====================*/
+function initNewsletterPopup() {
+    const modal = document.getElementById('newsletter-popup-modal');
+    const closeBtn = document.getElementById('newsletter-modal-close');
+    const form = document.getElementById('popup-newsletter-form');
+    
+    // Verifica se o usuário já viu ou se inscreveu nesta sessão
+    let isPopupDismissed = sessionStorage.getItem('newsletter-popup-dismissed') === 'true';
+
+    function showModal() {
+        if (!modal || isPopupDismissed) return;
+        
+        // Adiciona classe para iniciar a animação CSS (Pop-In)
+        modal.classList.add('show-modal'); 
+        
+        // Oculta automaticamente após 15 segundos se não houver interação
+        setTimeout(() => {
+            if (modal.classList.contains('show-modal')) {
+                closeModal();
+            }
+        }, 15000); 
+    }
+
+    function closeModal() {
+        if (!modal) return;
+        modal.classList.remove('show-modal');
+        // Salva no sessionStorage para não reaparecer na mesma sessão
+        sessionStorage.setItem('newsletter-popup-dismissed', 'true');
+        isPopupDismissed = true;
+    }
+
+    // 1. Mostrar pop-up após 5 segundos do load, se não tiver sido dispensado
+    window.addEventListener('load', () => {
+         // Atraso de 5 segundos para dar tempo ao usuário interagir e não ser invasivo
+         setTimeout(showModal, 5000); 
+    });
+
+
+    // 2. Fechar ao clicar no 'X'
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+    
+    // 3. Fechar ao clicar fora do modal (overlay)
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'newsletter-popup-modal') {
+                closeModal();
+            }
+        });
+    }
+
+    // 4. Submissão do Formulário (Reutiliza a lógica de validação/notificação)
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Assume que validateForm e showNotification já existem no main.js
+            if (validateForm(this)) { 
+                // Simula envio de dados e mostra notificação de sucesso
+                showNotification('Inscrição realizada com sucesso! Você receberá nosso conteúdo em breve.', 'success');
+                closeModal(); // Fecha o modal após o sucesso
+                this.reset();
+            } else {
+                showNotification('Por favor, insira um e-mail válido.', 'error');
+            }
+        });
+    }
+}
+
 
 /*==================== DOCUMENT LOAD INITIALIZATION ====================*/
 document.addEventListener('DOMContentLoaded', function() {
@@ -626,4 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // NOVO: Inicializa o Floating CTA e Pop-up
     initFloatingCta();
+
+    // NOVO: Inicializa o Newsletter Pop-up
+    initNewsletterPopup();
 });
