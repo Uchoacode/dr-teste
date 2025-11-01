@@ -368,7 +368,11 @@ section[id] {
 }
 
 .nav__actions .btn {
-  display: none;
+  /* CORREÇÃO: Torna o botão visível no desktop para alinhamento */
+  display: inline-flex; 
+  /* Opcional: ajusta o padding para ser mais compacto no header */
+  padding: 0.6rem 1.2rem;
+  font-size: var(--small-font-size);
 }
 
 /* Show menu */
@@ -1024,42 +1028,8 @@ section[id] {
   font-size: var(--small-font-size);
 }
 
-/* ===== SCROLL UP ===== */
-.scrollup {
-  position: fixed;
-  right: 1rem;
-  /* CORREÇÃO: Posição do scrollup no mobile */
-  bottom: 1rem; 
-  background: var(--gradient-primary);
-  opacity: 0.8;
-  padding: 0.3rem;
-  border-radius: 0.4rem;
-  z-index: var(--z-tooltip);
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  color: var(--white-color);
-  font-size: 1.2rem;
-  /* Esconde no início */
-  transform: translateY(100px); 
-  opacity: 0;
-}
+/* ===== SCROLL UP REMOVIDO */ 
 
-.scrollup:hover {
-  background: var(--primary-color-alt);
-  opacity: 1;
-  transform: translateY(-3px);
-}
-
-/* Show scroll */
-/* CORREÇÃO: Animação para mostrar o botão */
-.show-scroll {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* ===== MEDIA QUERIES ===== */
 /* For small devices */
@@ -1121,7 +1091,7 @@ section[id] {
         border-radius: 99px;
         
         /* Remove a margem que tinha no fluxo do header */
-        margin-right: 0 !important; 
+        margin-right: 0; 
     }
     
     /* Ajusta o espaçamento na barra de ações */
@@ -1288,15 +1258,6 @@ section[id] {
   .contact__img-wrapper {
     width: 300px;
     height: 350px;
-  }
-
-  .scrollup {
-    right: 3rem;
-    bottom: 3rem; /* Posição no desktop */
-  }
-
-  .show-scroll {
-    bottom: 3rem;
   }
 }
 
@@ -1592,11 +1553,6 @@ section[id] {
     color: var(--accent-color);
 }
 
-/* Esconde o switch em telas pequenas, para priorizar o toggle do menu */
-@media screen and (max-width: 768px) {
-    /* O display: none foi removido, a responsividade do site-switcher é controlada no bloco acima */
-}
-
 /* ===== FLOATING CTA STYLES (NOVO) ===== */
 .floating-cta-container {
     position: fixed;
@@ -1686,18 +1642,6 @@ section[id] {
 /* For medium devices (Tablet) */
 @media screen and (min-width: 568px) {
   /* ... (rest of the media query) ... */
-}
-
-@media screen and (min-width: 768px) {
-  /* ... (rest of the media query) ... */
-  .scrollup {
-    right: 3rem;
-    bottom: 3rem; /* Posição no desktop */
-  }
-
-  .show-scroll {
-    bottom: 3rem;
-  }
 }
 
 /* For large devices (Desktop) */

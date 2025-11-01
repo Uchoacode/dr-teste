@@ -131,7 +131,8 @@ function scrollHeader(){
 }
 window.addEventListener('scroll', scrollHeader)
 
-/*==================== SHOW SCROLL UP ====================*/ 
+/*==================== SHOW SCROLL UP - REMOVIDO ====================*/ 
+/*
 function scrollUp(){
     const scrollUp = document.getElementById('scroll-up');
     // When the scroll is higher than 560 viewport height, add the show-scroll class to the a tag with the scroll-top class
@@ -139,6 +140,7 @@ function scrollUp(){
     if(this.scrollY >= 560) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
 }
 window.addEventListener('scroll', scrollUp)
+*/
 
 /*==================== SMOOTH SCROLLING ====================*/
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -468,7 +470,8 @@ function showNotification(message, type) {
     }, 5000);
 }
 
-/*==================== BACK TO TOP SMOOTH SCROLL ====================*/
+/*==================== BACK TO TOP SMOOTH SCROLL - REMOVIDO ====================*/
+/*
 const scrollUpBtn = document.getElementById('scroll-up');
 if (scrollUpBtn) {
     scrollUpBtn.addEventListener('click', function(e) {
@@ -479,6 +482,7 @@ if (scrollUpBtn) {
         });
     });
 }
+*/
 
 /*==================== CODE RAIN EFFECT (MEDICAL WORDS) ====================*/
 function initCodeRain() {
