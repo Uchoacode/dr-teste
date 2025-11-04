@@ -1660,7 +1660,7 @@ body.fade-in {
     margin-right: var(--mb-0-5); /* Espaçamento antes do botão de agendamento */
     /* Tornar flutuante no desktop para alinhar com o botão Agendar */
     position: fixed;
-    bottom: 3rem;
+    bottom: 1.5rem;
     left: 3rem;
     z-index: 500;
 }
@@ -1711,7 +1711,7 @@ body.fade-in {
 /* ===== FLOATING CTA STYLES (NOVO) ===== */
 .floating-cta-container {
     position: fixed;
-    bottom: 3rem;
+    bottom: 1.5rem;
     right: 3rem;
     z-index: var(--z-fixed); /* Acima de tudo, mas abaixo do modal */
     display: flex;
