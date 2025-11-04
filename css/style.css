@@ -91,6 +91,8 @@ body {
   background-color: var(--white-color);
   color: var(--text-color);
   line-height: 1.6;
+  /* NOVO: Impede rolagem lateral em toda a aplicação */
+  overflow-x: hidden; 
 }
 
 h1, h2, h3, h4 {
@@ -1292,8 +1294,9 @@ body.menu-open {
     /* Balance hero spacing on mobile */
     .home {
         padding-top: calc(var(--header-height) + 1rem);
+        /* MODIFICADO/CORRIGIDO: O caminho da imagem deve ser relativo ao arquivo CSS (../assets/images/) */
         background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.92) 35%, rgba(255,255,255,0.96) 100%),
-                    url('assets/images/72c8763d-49cc-4040-946c-3f5a8cac1cab.jpg') center/cover no-repeat;
+                    url('../assets/images/72c8763d-49cc-4040-946c-3f5a8cac1cab.jpg') center/cover no-repeat;
     }
 
     /* Harmonize the professor photo with bg */

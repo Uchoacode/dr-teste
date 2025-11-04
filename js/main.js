@@ -200,8 +200,10 @@ function initTypingEffect() {
 
     // Speeds tuned for desktop and slower on mobile for elegance
     const isMobile = window.matchMedia('(max-width: 767px)').matches;
-    const typeSpeed = isMobile ? 180 : 95;     // ms per char when typing (mobile mais lento)
-    const deleteSpeed = isMobile ? 90 : 65;    // ms per char when deleting
+    // MODIFICADO: Aumenta a velocidade de digitação no mobile para ficar mais lenta (250ms vs 180ms)
+    const typeSpeed = isMobile ? 250 : 95;     // ms per char when typing (mobile mais lento)
+    // MODIFICADO: Aumenta a velocidade de exclusão no mobile para ficar mais lenta (120ms vs 90ms)
+    const deleteSpeed = isMobile ? 120 : 65;    // ms per char when deleting
     const holdOnTyped = isMobile ? 1500 : 1100; // pause after a phrase is fully typed
     const holdOnDeleted = isMobile ? 600 : 420; // pause after deletion before next phrase
 
