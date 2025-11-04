@@ -155,6 +155,12 @@ section[id] {
   transition: color 0.5s, opacity 0.5s;
 }
 
+.code-snippet__inner {
+  display: inline-block;
+  will-change: transform;
+  transition: transform 0.25s ease;
+}
+
 /* Animação de flutuação e rotação */
 @keyframes floatUp {
   from { transform: translateY(100vh) rotate(5deg); }
@@ -319,6 +325,7 @@ section[id] {
   box-shadow: 1px 0 4px var(--shadow-color);
   transition: transform 0.3s ease-in-out;
   transform: translateX(-100%); /* Esconde à esquerda */
+  z-index: 120; /* Acima do overlay */
 }
 
 .nav__list {
@@ -382,6 +389,31 @@ section[id] {
   transform: translateX(0);
 }
 
+/* Overlay para o menu mobile */
+.nav__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  z-index: 110; /* abaixo do menu, acima do conteúdo */
+}
+
+/* Exibir overlay quando menu aberto */
+body.menu-open .nav__overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Bloqueia scroll do body quando menu está aberto */
+body.menu-open {
+  overflow: hidden;
+}
+
 /* Active link */
 .active-link {
   color: var(--primary-color) !important;
@@ -401,12 +433,15 @@ section[id] {
   min-height: calc(100vh - var(--header-height));
   display: flex;
   align-items: center;
+  position: relative; /* for bg svg */
 }
 
 .home__container {
   gap: 2rem;
   grid-template-columns: 1fr;
   align-items: center;
+  position: relative;
+  z-index: 1; /* keep content above bg */
 }
 
 .home__content {
@@ -425,6 +460,24 @@ section[id] {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: block;
+  position: relative; /* for caret */
+  min-height: 1.2em; /* avoids height jump during typing */
+}
+
+/* Blinking caret for typing effect */
+.home__title-accent::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  background: var(--primary-color);
+  margin-left: 4px;
+  vertical-align: -0.1em;
+  animation: caretBlink 1s steps(1) infinite;
+}
+
+@keyframes caretBlink {
+  50% { opacity: 0; }
 }
 
 .home__description {
@@ -525,6 +578,33 @@ section[id] {
     0% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
+}
+
+/* ===== HERO DYNAMIC SVG BACKGROUND ===== */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0; /* behind content */
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.hero-wave {
+  width: 100%;
+  height: 100%;
+}
+
+.wave-path {
+  animation: waveDrift 14s ease-in-out infinite;
+}
+
+.wave-path--2 { animation-duration: 18s; animation-delay: 0.6s; }
+.wave-path--3 { animation-duration: 22s; animation-delay: 1.2s; }
+
+@keyframes waveDrift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0.9; }
+  50%  { transform: translateY(-8px) translateX(-10px); opacity: 0.8; }
+  100% { transform: translateY(0) translateX(0); opacity: 0.9; }
 }
 
 
@@ -1139,6 +1219,21 @@ section[id] {
   .contact__buttons {
     flex-direction: column;
   }
+
+  /* Extra small screens: ensure titles and hero image fit perfectly */
+  :root {
+    --biggest-font-size: 2.1rem;
+    --h1-font-size: 1.75rem;
+  }
+
+  .home__img-wrapper {
+    width: 240px;
+    height: 240px;
+  }
+
+  .nav__link {
+    padding: 0.25rem 0;
+  }
 }
 
 /* NOVO: CORREÇÃO PARA BOTÃO FLUTUANTE (SITE SWITCHER) E EXIBIÇÃO DO CTA NO MOBILE */
@@ -1148,7 +1243,7 @@ section[id] {
     /* Torna o Site Switcher em um elemento flutuante no canto inferior esquerdo */
     .site-switcher {
         position: fixed;
-        bottom: 1rem;
+        bottom: calc(1rem + env(safe-area-inset-bottom));
         left: 1rem;
         z-index: 500; 
         
@@ -1179,7 +1274,7 @@ section[id] {
     
     /* Move o floating CTA para o canto inferior direito no mobile */
     .floating-cta-container {
-        bottom: 1rem;
+        bottom: calc(1rem + env(safe-area-inset-bottom));
         right: 1rem;
         left: auto;
     }
@@ -1192,6 +1287,28 @@ section[id] {
     .floating-cta-popup {
         max-width: 200px;
         font-size: var(--smaller-font-size);
+    }
+
+    /* Balance hero spacing on mobile */
+    .home {
+        padding-top: calc(var(--header-height) + 1rem);
+        background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.92) 35%, rgba(255,255,255,0.96) 100%),
+                    url('assets/images/72c8763d-49cc-4040-946c-3f5a8cac1cab.jpg') center/cover no-repeat;
+    }
+
+    /* Harmonize the professor photo with bg */
+    .home__img-wrapper {
+        width: 220px;
+        height: 220px;
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+        border: 3px solid rgba(255,255,255,0.7);
+        backdrop-filter: blur(2px);
+    }
+
+    /* Slightly larger tap target for hamburger */
+    .nav__toggle {
+        font-size: 1.3rem;
+        padding: 0.5rem;
     }
 }
 
@@ -1515,6 +1632,20 @@ section[id] {
 }
 
 /* ===== ANIMATIONS (Keyframes para Intersection Observer) ===== */
+/* Page transitions */
+body.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body.fade-in {
+  animation: pageFadeIn 0.35s ease both;
+}
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -1651,7 +1782,7 @@ section[id] {
 
 /* Floating CTA Pop-up (Aparece acima do botão) */
 .floating-cta-popup {
-    background: var(--white-color);
+    background: rgba(255, 255, 255, 0.6);
     color: var(--text-color);
     padding: 1rem 1.25rem;
     border-radius: 0.75rem;
@@ -1659,6 +1790,8 @@ section[id] {
     max-width: 250px;
     position: relative;
     border-left: 4px solid var(--primary-color);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+    backdrop-filter: blur(10px) saturate(120%);
     
     /* Inicia escondido */
     opacity: 0;
@@ -1750,7 +1883,7 @@ section[id] {
 }
 
 .newsletter-modal__content {
-    background: var(--white-color);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 1rem;
     padding: 2.5rem;
     max-width: 90%;
@@ -1760,6 +1893,8 @@ section[id] {
     /* Pop-In Effect */
     transform: scale(0.8);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
+    backdrop-filter: blur(12px) saturate(120%);
 }
 
 .newsletter-modal.show-modal .newsletter-modal__content {

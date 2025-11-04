@@ -2,6 +2,7 @@
 const navMenu = document.getElementById('nav-menu'),
       navToggle = document.getElementById('nav-toggle'),
       navClose = document.getElementById('nav-close')
+const navOverlay = document.getElementById('nav-overlay')
 
 /*===== MENU SHOW =====*/
 /* Validate if constant exists */
@@ -9,6 +10,7 @@ if(navToggle){
     navToggle.addEventListener('click', () =>{
         // CORREÇÃO: Usa a classe 'open-menu' para abrir o menu lateral
         navMenu.classList.add('open-menu')
+        document.body.classList.add('menu-open')
     })
 }
 
@@ -18,6 +20,15 @@ if(navClose){
     navClose.addEventListener('click', () =>{
         // CORREÇÃO: Usa a classe 'open-menu' para fechar o menu lateral
         navMenu.classList.remove('open-menu')
+        document.body.classList.remove('menu-open')
+    })
+}
+
+// Fecha o menu ao tocar no overlay
+if (navOverlay) {
+    navOverlay.addEventListener('click', () => {
+        navMenu.classList.remove('open-menu')
+        document.body.classList.remove('menu-open')
     })
 }
 
@@ -29,6 +40,7 @@ function linkAction(){
     // When we click on each nav__link, we remove the open-menu class
     // CORREÇÃO: Remove a classe 'open-menu'
     navMenu.classList.remove('open-menu')
+    document.body.classList.remove('menu-open')
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
 
@@ -160,30 +172,83 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-/*==================== TYPING ANIMATION ====================*/
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.innerHTML = '';
-    
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
+/*==================== TYPING ANIMATION (IMPROVED, LOOP, NO LAYOUT JUMP) ====================*/
+function initTypingEffect() {
+    const el = document.querySelector('.home__title-accent');
+    if (!el) return;
+
+    // List of phrases to cycle through (first one comes from the HTML for SEO)
+    const first = (el.textContent || 'Endocrinologista').trim();
+    const phrases = [
+        first,
+        'Especialista em Diabetes',
+        'Tecnologias em Diabetes',
+        'Tratamento de Peso',
+        'Doenças da Tireóide'
+    ];
+
+    // Create a hidden sizer to stabilize width using the longest phrase
+    const sizer = document.createElement('span');
+    sizer.textContent = phrases.reduce((a, b) => (a.length > b.length ? a : b));
+    sizer.setAttribute('aria-hidden', 'true');
+    sizer.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;pointer-events:none;';
+    el.parentNode.insertBefore(sizer, el);
+
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let typing = true;
+
+    // Speeds tuned for desktop and slower on mobile for elegance
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    const typeSpeed = isMobile ? 180 : 95;     // ms per char when typing (mobile mais lento)
+    const deleteSpeed = isMobile ? 90 : 65;    // ms per char when deleting
+    const holdOnTyped = isMobile ? 1500 : 1100; // pause after a phrase is fully typed
+    const holdOnDeleted = isMobile ? 600 : 420; // pause after deletion before next phrase
+
+    function tick() {
+        const current = phrases[phraseIndex];
+        if (typing) {
+            // type forward
+            charIndex = Math.min(charIndex + 1, current.length);
+            el.textContent = current.slice(0, charIndex);
+            if (charIndex === current.length) {
+                typing = false;
+                setTimeout(tick, holdOnTyped);
+                return;
+            }
+            setTimeout(tick, typeSpeed);
+        } else {
+            // delete backward
+            charIndex = Math.max(charIndex - 1, 0);
+            el.textContent = current.slice(0, charIndex);
+            if (charIndex === 0) {
+                typing = true;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(tick, holdOnDeleted);
+                return;
+            }
+            setTimeout(tick, deleteSpeed);
         }
     }
-    
-    type();
+
+    // Start when hero is visible to avoid unnecessary work off-screen
+    const hero = document.getElementById('home');
+    if ('IntersectionObserver' in window && hero) {
+        const ob = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    observer.disconnect();
+                    setTimeout(tick, 300); // small delay for a smoother start
+                }
+            });
+        }, { threshold: 0.4 });
+        ob.observe(hero);
+    } else {
+        setTimeout(tick, 300);
+    }
 }
 
-// Initialize typing animation when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    const titleElement = document.querySelector('.home__title-accent');
-    if (titleElement) {
-        const originalText = titleElement.textContent;
-        typeWriter(titleElement, originalText, 150);
-    }
-});
+document.addEventListener('DOMContentLoaded', initTypingEffect);
 
 /*==================== STATS COUNT UP ANIMATION ====================*/
 function animateCountUp(el, targetNumber, duration = 2000) {
@@ -504,8 +569,11 @@ function initCodeRain() {
     setInterval(() => {
         const snippet = document.createElement("div");
         snippet.classList.add("code-snippet");
-        // Seleciona um termo aleatório da lista
-        snippet.textContent = snippets[Math.floor(Math.random() * snippets.length)];
+        // Conteúdo interno para permitir micro-interações sem conflitar com a animação principal
+        const inner = document.createElement('span');
+        inner.className = 'code-snippet__inner';
+        inner.textContent = snippets[Math.floor(Math.random() * snippets.length)];
+        snippet.appendChild(inner);
         
         // Define a posição horizontal e a duração da animação (velocidade)
         const leftVw = Math.min(98, Math.max(2, randBetween(0, 100)));
@@ -518,6 +586,51 @@ function initCodeRain() {
         // Remove o elemento da DOM após a queda para manter a performance
         setTimeout(() => { snippet.remove(); }, 26000);
     }, isMobile ? 420 : 520); 
+
+    // Micro-interação: afastar termos do cursor suavemente
+    let rafId = null;
+    let mouseX = 0, mouseY = 0;
+    let needsUpdate = false;
+
+    function onMove(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!rafId) {
+            rafId = requestAnimationFrame(applyRepulsion);
+        }
+    }
+
+    function applyRepulsion() {
+        rafId = null;
+        const inners = container.querySelectorAll('.code-snippet__inner');
+        const maxDistance = 120; // px
+        const maxOffset = 28; // px
+        inners.forEach(inner => {
+            const parent = inner.parentElement;
+            const rect = parent.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = cx - mouseX;
+            const dy = cy - mouseY;
+            const dist = Math.hypot(dx, dy);
+            if (dist < maxDistance) {
+                const strength = 1 - dist / maxDistance; // 0..1
+                const nx = dx / (dist || 1);
+                const ny = dy / (dist || 1);
+                const offsetX = nx * maxOffset * strength;
+                const offsetY = ny * maxOffset * strength;
+                inner.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
+            } else {
+                // Volta suavemente ao lugar
+                if (inner.style.transform) inner.style.transform = 'translate3d(0,0,0)';
+            }
+        });
+    }
+
+    // Ativa apenas em dispositivos com ponteiro fino (mouse)
+    if (window.matchMedia('(pointer: fine)').matches) {
+        window.addEventListener('mousemove', onMove);
+    }
 }
 
 /*==================== SITE SWITCH REDIRECTION ====================*/
@@ -699,4 +812,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // NOVO: Inicializa o Newsletter Pop-up
     initNewsletterPopup();
+
+    // ===== PAGE TRANSITIONS (FADE) =====
+    // Fade-in on load
+    document.body.classList.add('fade-in');
+
+    // Intercept internal navigation for fade-out
+    document.querySelectorAll('a[href]').forEach(a => {
+        const href = a.getAttribute('href');
+        const isAnchor = href && href.startsWith('#');
+        const isExternal = a.target === '_blank' || (href && /^https?:\/\//i.test(href) && !href.includes(window.location.host));
+        if (!href || isAnchor || isExternal) return;
+
+        a.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.href;
+            document.body.classList.add('fade-out');
+            setTimeout(() => { window.location.href = url; }, 300);
+        });
+    });
 });

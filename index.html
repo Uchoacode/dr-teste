@@ -83,9 +83,27 @@
             </div>
         </nav>
     </header>
+    <div class="nav__overlay" id="nav-overlay"></div>
 
     <main class="main">
         <section class="home section" id="home">
+            <!-- Dynamic SVG background for hero -->
+            <div class="hero-bg" aria-hidden="true">
+                <svg class="hero-wave" viewBox="0 0 1440 600" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#0072A8" stop-opacity="0.15"/>
+                            <stop offset="100%" stop-color="#58C3E5" stop-opacity="0.10"/>
+                        </linearGradient>
+                    </defs>
+                    <path class="wave-path" fill="none" stroke="url(#heroGrad)" stroke-width="2"
+                          d="M0,300 C240,260 480,340 720,300 C960,260 1200,340 1440,300" />
+                    <path class="wave-path wave-path--2" fill="none" stroke="url(#heroGrad)" stroke-width="1.5"
+                          d="M0,360 C240,320 480,400 720,360 C960,320 1200,400 1440,360" />
+                    <path class="wave-path wave-path--3" fill="none" stroke="url(#heroGrad)" stroke-width="1"
+                          d="M0,420 C240,380 480,460 720,420 C960,380 1200,460 1440,420" />
+                </svg>
+            </div>
             <div class="home__container container grid">
                 <div class="home__content">
                     <div class="home__data">
@@ -413,7 +431,6 @@
                             </p>
                             <div class="video__stats">
                                 <span><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 13H11V7h1.5v8z"/></svg> 9:56</span>
-                                <span><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5c-6.14 0-11 5.52-11 7.5s4.86 7.5 11 7.5 11-5.52 11-7.5-4.86-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg> 134 visualizações</span>
                             </div>
                         </div>
                     </div>
