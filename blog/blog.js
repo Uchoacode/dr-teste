@@ -72,25 +72,67 @@ document.addEventListener('DOMContentLoaded', function() {
 // Filter posts by category
 function filterPostsByCategory(category) {
     const posts = document.querySelectorAll('.post__item');
+    const featuredPosts = document.querySelectorAll('.post__card');
     
+    // Category mapping
+    const categoryMatch = {
+        'diabetes': ['diabetes'],
+        'tireoide': ['tireóide', 'tireoide'],
+        'emagrecimento': ['emagrecimento'],
+        'prevencao': ['prevenção', 'prevencao']
+    };
+    
+    const normalizedCategory = category ? category.toLowerCase() : '';
+    const matches = categoryMatch[normalizedCategory] || [];
+    
+    // Filter recent posts
     posts.forEach(post => {
-        const postCategory = post.querySelector('.post__item-category').textContent.toLowerCase();
-        const categoryMatch = {
-            'diabetes': 'diabetes',
-            'tireoide': 'tireóide',
-            'emagrecimento': 'emagrecimento',
-            'prevencao': 'prevenção'
-        };
+        const categoryEl = post.querySelector('.post__item-category');
+        if (!categoryEl) return;
         
-        if (category === 'all' || postCategory === categoryMatch[category]) {
+        const postCategory = categoryEl.textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        
+        if (category === 'all' || normalizedCategory === '' || matches.some(match => {
+            const normalizedMatch = match.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            return postCategory.includes(normalizedMatch);
+        })) {
             post.style.display = 'block';
-            // Usar a classe de animação para entrada fluida após a filtragem
-            post.classList.add('animate-fade-in-up'); 
+            post.classList.add('animate-fade-in-up');
+            setTimeout(() => {
+                post.style.opacity = '1';
+            }, 10);
         } else {
             post.style.display = 'none';
             post.classList.remove('animate-fade-in-up');
         }
     });
+    
+    // Filter featured posts
+    featuredPosts.forEach(post => {
+        const categoryEl = post.querySelector('.post__category');
+        if (!categoryEl) return;
+        
+        const postCategory = categoryEl.textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        
+        if (category === 'all' || normalizedCategory === '' || matches.some(match => {
+            const normalizedMatch = match.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            return postCategory.includes(normalizedMatch);
+        })) {
+            post.style.display = 'block';
+            post.classList.add('animate-fade-in-up');
+        } else {
+            post.style.display = 'none';
+            post.classList.remove('animate-fade-in-up');
+        }
+    });
+    
+    // Scroll to posts section after filtering
+    const recentPostsSection = document.querySelector('.recent-posts');
+    if (recentPostsSection && category !== 'all') {
+        setTimeout(() => {
+            recentPostsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
 }
 
 // Load more posts (simulate loading)

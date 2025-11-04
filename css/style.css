@@ -333,7 +333,7 @@ section[id] {
   box-shadow: 1px 0 4px var(--shadow-color);
   transition: transform 0.3s ease-in-out;
   transform: translateX(-100%); /* Esconde à esquerda */
-  z-index: 120; /* Acima do overlay */
+  z-index: 120; /* CORREÇÃO: Z-index maior que o overlay (110) para ser clicável */
 }
 
 .nav__list {
@@ -347,6 +347,8 @@ section[id] {
 .nav__link {
   display: flex;
   align-items: center;
+  width: 100%; /* FIX: Ensures clickable area spans the width in mobile menu */
+  padding: 0.5rem 0; /* FIX: Increases vertical touch target for better UX */
   font-size: var(--normal-font-size);
   color: var(--text-color);
   font-weight: var(--font-medium);
@@ -408,7 +410,7 @@ section[id] {
   opacity: 0;
   visibility: hidden;
   transition: var(--transition);
-  z-index: 110; /* abaixo do menu, acima do conteúdo */
+  z-index: 110; /* abaixo do menu (120), acima do conteúdo (10) */
 }
 
 /* Exibir overlay quando menu aberto */
