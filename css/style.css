@@ -6,13 +6,14 @@
   --header-height: 4rem;
 
   /* ========== Colors ========== */
-  --primary-color: #2563eb;
-  --primary-color-alt: #1d4ed8;
-  --secondary-color: #0ea5e9;
-  --accent-color: #06b6d4;
+  --primary-color: #0072A8; /* Azul principal - confiança */
+  --primary-color-alt: #005a87; /* Tom mais escuro do azul principal */
+  --secondary-color: #58C3E5; /* Azul-claro gradiente - vitalidade */
+  --accent-color: #A0A5AA; /* Cinza-prata - sofisticação técnica */
   --text-color: #1f2937;
   --text-color-light: #6b7280;
-  --white-color: #ffffff;
+  --gray-silver: #A0A5AA; /* Cinza-prata */
+  --white-color: #FFFFFF; /* Branco - clareza e equilíbrio */
   --light-color: #f8fafc;
   --border-color: #e5e7eb;
   --shadow-color: rgba(0, 0, 0, 0.1);
@@ -260,12 +261,12 @@ section[id] {
 .btn--primary {
   background: var(--gradient-primary);
   color: var(--white-color);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 114, 168, 0.3);
 }
 
 .btn--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 114, 168, 0.4);
 }
 
 .btn--secondary {
@@ -475,7 +476,7 @@ section[id] {
   height: 300px;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 114, 168, 0.2);
   /* NOVO: Animação de flutuação suave na imagem */
   animation: floatImage 4s ease-in-out infinite;
 }
@@ -649,6 +650,75 @@ section[id] {
   opacity: 0.9;
 }
 
+/* ===== PILLARS ===== */
+.pillars {
+  background: var(--white-color);
+}
+
+.pillars__container {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.pillar__card {
+  background: var(--white-color);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  transition: var(--transition);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.pillar__card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 114, 168, 0.15);
+  border-color: var(--primary-color);
+}
+
+.pillar__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-primary);
+}
+
+.pillar__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  background: var(--gradient-primary);
+  color: var(--white-color);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  margin: 0 auto var(--mb-1);
+  transition: var(--transition-slow);
+}
+
+.pillar__card:hover .pillar__icon {
+  animation: pulseIcon 1.5s infinite;
+}
+
+.pillar__title {
+  font-size: var(--h3-font-size);
+  margin-bottom: var(--mb-1);
+  color: var(--text-color);
+  font-weight: var(--font-semi-bold);
+}
+
+.pillar__description {
+  color: var(--text-color-light);
+  line-height: 1.6;
+  font-size: var(--normal-font-size);
+}
+
 /* ===== SPECIALTIES ===== */
 .specialties {
   background: var(--light-color);
@@ -673,7 +743,7 @@ section[id] {
 /* MODIFICAÇÃO: Efeito de hover na Card de Especialidade (inclui leve rotação) */
 .specialty__card:hover {
   transform: translateY(-10px) rotateZ(-0.5deg);
-  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 114, 168, 0.15);
 }
 
 .specialty__card::before {
@@ -702,9 +772,9 @@ section[id] {
 
 /* NOVO: Animação de pulso no ícone ao passar o mouse na Card */
 @keyframes pulseIcon {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 114, 168, 0.4); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(0, 114, 168, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 114, 168, 0); }
 }
 
 .specialty__card:hover .specialty__icon {
@@ -1309,7 +1379,7 @@ section[id] {
 
 .video__card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 114, 168, 0.15);
 }
 
 .video__thumbnail {
@@ -1341,7 +1411,7 @@ section[id] {
 }
 
 .video__category.diabetes {
-  background: rgba(37, 99, 235, 0.1);
+  background: rgba(0, 114, 168, 0.1);
   color: var(--primary-color);
 }
 
@@ -1409,12 +1479,12 @@ section[id] {
 .button--primary {
   background: var(--gradient-primary);
   color: var(--white-color);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 114, 168, 0.3);
 }
 
 .button--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 114, 168, 0.4);
 }
 
 /* Responsive Videos */
