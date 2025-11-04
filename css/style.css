@@ -433,7 +433,7 @@ body.menu-open {
   box-shadow: 0 1px 4px var(--shadow-color);
 }
 
-/* ===== HOME ===== */
+/* ===== HOME - REDESIGN SEM IMAGEM ===== */
 .home {
   background: linear-gradient(180deg, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.85) 35%, rgba(255,255,255,0.92) 100%),
               url('../assets/images/72c8763d-49cc-4040-946c-3f5a8cac1cab.jpg') center/cover no-repeat;
@@ -446,15 +446,18 @@ body.menu-open {
 }
 
 .home__container {
-  gap: 2rem;
+  /* Adaptado para 1 coluna e centrado */
   grid-template-columns: 1fr;
   align-items: center;
   position: relative;
   z-index: 1; /* keep content above bg */
+  max-width: 800px; /* Limita largura do conteúdo principal em desktop */
+  margin: 0 auto;
 }
 
 .home__content {
   text-align: center;
+  width: 100%; /* Garante que o conteúdo ocupe a coluna inteira */
 }
 
 .home__title {
@@ -526,58 +529,14 @@ body.menu-open {
   flex-wrap: wrap;
 }
 
-.home__image {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--mb-2);
-}
-
-.home__img-wrapper {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 114, 168, 0.2);
-  /* NOVO: Animação de flutuação suave na imagem */
-  animation: floatImage 4s ease-in-out infinite;
-  border: 4px solid rgba(255, 255, 255, 0.7);
-}
-
-.home__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: var(--transition-slow);
-}
-
-/* MODIFICAÇÃO: Efeito de hover na imagem Home */
-.home__img-wrapper:hover .home__img {
-  transform: scale(1.05) rotate(1deg);
-}
-
-/* overlay removido do HTML; mantido sem efeitos */
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-}
-
-/* NOVO: Animação de flutuação para a imagem principal */
+/* REMOVIDO: Estilos para home__image, home__img-wrapper, home__img e suas animações */
 @keyframes floatImage {
     0% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
 }
 
-/* ===== HERO DYNAMIC SVG BACKGROUND ===== */
+/* ===== HERO DYNAMIC SVG BACKGROUND (MANTIDO) ===== */
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -931,45 +890,61 @@ body.menu-open {
 /* FIM MODAL STYLES */
 
 
-/* ===== CONTACT ===== */
+/* ===== CONTACT - REDESIGN PARA COLUNA ÚNICA E FOCO EM INFO/CTA ===== */
 .contact {
   background: linear-gradient(180deg, #f7fbff 0%, #ffffff 60%);
 }
 
 .contact__container {
-  gap: 2rem;
-  grid-template-columns: 1fr;
-  align-items: stretch;
+  /* Sempre 1 coluna, sem depender da media query */
+  gap: 2.5rem;
+  grid-template-columns: 1fr; 
+  align-items: start;
 }
 
 .contact__content {
   text-align: left;
   background: var(--white-color);
   border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 10px 30px var(--shadow-color);
+  padding: 2.5rem; /* Aumento de padding para melhor visual */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* Sombra mais destacada */
+  width: 100%;
 }
 
 .contact__title {
   font-size: var(--h3-font-size);
-  margin-bottom: var(--mb-1-5);
+  margin-bottom: var(--mb-2); /* Aumento de margem */
   color: var(--text-color);
+  position: relative;
+}
+
+/* Novo separador/destaque para o título */
+.contact__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateX(0);
+    width: 50px;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
 }
 
 .contact__item {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: var(--mb-1-5);
-  padding: 1.5rem;
+  margin-bottom: var(--mb-1); /* Reduzido o mb-1-5 para mais compacto */
+  padding: 1rem; /* Reduzido o padding de 1.5rem */
   background: var(--light-color);
   border-radius: 0.75rem;
   transition: var(--transition);
 }
 
 .contact__item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px var(--shadow-color);
+  transform: translateY(-3px); /* Animação de hover mais suave */
+  box-shadow: 0 8px 25px var(--shadow-color);
 }
 
 .contact__icon {
@@ -1004,13 +979,13 @@ body.menu-open {
 }
 
 .contact__cta {
-  margin-top: 0;
+  margin-top: 2.5rem; /* Aumenta a separação */
   padding: 2rem;
   background: var(--gradient-primary);
   color: var(--white-color);
   border-radius: 1rem;
   text-align: center;
-  box-shadow: 0 14px 40px rgba(0, 114, 168, 0.25);
+  box-shadow: 0 18px 45px rgba(0, 114, 168, 0.35); /* Sombra mais forte */
 }
 
 .contact__cta h3 {
@@ -1049,31 +1024,7 @@ body.menu-open {
   color: var(--primary-color);
 }
 
-.contact__image {
-  display: flex;
-  justify-content: center;
-}
-
-.contact__img-wrapper {
-  position: relative;
-  width: 250px;
-  height: 300px;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 20px 40px var(--shadow-color);
-}
-
-.contact__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: var(--transition-slow);
-}
-
-/* MODIFICAÇÃO: Efeito de hover na imagem Contact */
-.contact__img-wrapper:hover .contact__img {
-  transform: scale(1.05) rotate(1deg);
-}
+/* REMOVIDO: .contact__image e seus estilos */
 
 /* ===== FOOTER ===== */
 .footer {
@@ -1228,9 +1179,11 @@ body.menu-open {
     --h1-font-size: 1.75rem;
   }
 
-  .home__img-wrapper {
-    width: 240px;
-    height: 240px;
+  /* Home: centraliza o conteúdo em 1 coluna */
+  .home__container {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    margin: 0 var(--mb-1);
   }
 
   .nav__link {
@@ -1291,7 +1244,7 @@ body.menu-open {
         font-size: var(--smaller-font-size);
     }
 
-    /* Balance hero spacing on mobile */
+    /* Home: Remove estilos de imagem que não existem mais */
     .home {
         padding-top: calc(var(--header-height) + 1rem);
         /* Mantém a mesma imagem com overlay mais sutil para ficar mais aparente no mobile */
@@ -1299,14 +1252,7 @@ body.menu-open {
                     url('../assets/images/72c8763d-49cc-4040-946c-3f5a8cac1cab.jpg') center/cover no-repeat;
     }
 
-    /* Harmonize the professor photo with bg */
-    .home__img-wrapper {
-        width: 220px;
-        height: 220px;
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
-        border: 3px solid rgba(255,255,255,0.7);
-        backdrop-filter: blur(2px);
-    }
+    /* Harmonize the professor photo with bg - REMOVIDO */
 
     /* Slightly larger tap target for hamburger */
     .nav__toggle {
@@ -1322,30 +1268,24 @@ body.menu-open {
     margin: 0; 
   }
 
-  .home__container,
-  .about__container,
-  .contact__container {
+  .home__container {
+    /* Garante coluna única e centrada, anulando o grid: repeat(2, 1fr) anterior */
+    grid-template-columns: 1fr;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .home__content {
+    text-align: center; /* Centraliza no tablet/desktop sem imagem */
+  }
+
+  .about__container {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .home__content {
-    text-align: left;
-  }
-
-  .home__image {
-    order: 1;
-  }
-
-  .home__content {
-    order: 2;
-  }
-
-  .about__content {
-    text-align: left;
-  }
-
-  .contact__content {
-    text-align: left;
+  .contact__container {
+    /* Contact: Mantido em 1 coluna */
+    grid-template-columns: 1fr;
   }
 
   /* MODIFICADO: Rodapé para 2 colunas e alinhamento à esquerda */
@@ -1429,7 +1369,9 @@ body.menu-open {
 
   .home__container {
     gap: 4rem;
+    max-width: 900px; /* Mantém a largura máxima do container centrado */
   }
+
 
   .home__img-wrapper {
     width: 400px;
@@ -1447,8 +1389,11 @@ body.menu-open {
   }
 
   .contact__container {
-    grid-template-columns: 1.3fr 0.7fr;
+    /* Contact: Mantido em 1 coluna, mas limitado em largura no desktop */
+    grid-template-columns: 1fr;
     align-items: start;
+    max-width: 700px; 
+    margin: 0 auto;
   }
 }
 
@@ -1713,6 +1658,11 @@ body.fade-in {
     transition: all 0.3s ease;
     cursor: pointer;
     margin-right: var(--mb-0-5); /* Espaçamento antes do botão de agendamento */
+    /* Tornar flutuante no desktop para alinhar com o botão Agendar */
+    position: fixed;
+    bottom: 3rem;
+    left: 3rem;
+    z-index: 500;
 }
 
 .site-switcher .svg-icon {
@@ -1846,24 +1796,6 @@ body.fade-in {
 }
 /* FIM FLOATING CTA STYLES */
 
-/* For medium devices (Tablet) */
-@media screen and (min-width: 568px) {
-  /* ... (rest of the media query) ... */
-}
-
-/* For large devices (Desktop) */
-@media screen and (min-width: 1024px) {
-  /* ... (rest of the media query) ... */
-}
-
-@media screen and (min-width: 1200px) {
-  .specialties__container {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* ===== VIDEOS SECTION (Mantenha o resto das seções) ===== */
-/* ... (rest of the file remains unchanged) ... */
 /* ===== NOVO: NEWSLETTER POP-UP MODAL STYLES (Utilizando base do Modal/CTA) ===== */
 .newsletter-modal {
     position: fixed;
