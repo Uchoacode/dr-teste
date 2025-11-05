@@ -1,8 +1,7 @@
-/*==================== MENU SHOW Y HIDDEN (REFAZER) ====================*/
+/*==================== MENU SANDUÍCHE MODERNO ====================*/
 const navMenu = document.getElementById('nav-menu'),
       navToggle = document.getElementById('nav-toggle'),
       navClose = document.getElementById('nav-close'),
-      navOverlay = document.getElementById('nav-overlay'),
       navLinks = document.querySelectorAll('.nav__link');
 
 /**
@@ -12,8 +11,11 @@ function closeMenu() {
     if (navMenu && document.body) {
         navMenu.classList.remove('open-menu');
         document.body.classList.remove('menu-open');
+        
         // Acessibilidade: Atualiza o estado do botão toggle
-        if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+        if (navToggle) {
+            navToggle.setAttribute('aria-expanded', 'false');
+        }
     }
 }
 
@@ -24,39 +26,86 @@ function openMenu() {
     if (navMenu && document.body) {
         navMenu.classList.add('open-menu');
         document.body.classList.add('menu-open');
+        
         // Acessibilidade: Atualiza o estado do botão toggle
         if (navToggle) navToggle.setAttribute('aria-expanded', 'true');
-        
-        // Acessibilidade: Move o foco para o primeiro link do menu
-        setTimeout(() => {
-            const firstNavLink = navMenu.querySelector('.nav__link');
-            if (firstNavLink) firstNavLink.focus();
-        }, 100);
     }
 }
 
 /*===== MENU SHOW: Abre ao clicar no sanduíche =====*/
 if (navToggle) {
-    navToggle.addEventListener('click', openMenu);
+    navToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (navMenu.classList.contains('open-menu')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+    
     // Adiciona atributos de acessibilidade
     navToggle.setAttribute('aria-controls', 'nav-menu');
     navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('type', 'button');
 }
 
 /*===== MENU HIDDEN: Fecha ao clicar no X, Overlay ou Link =====*/
 if (navClose) {
-    navClose.addEventListener('click', closeMenu);
+    navClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMenu();
+    });
+    navClose.setAttribute('type', 'button');
 }
 
-// Fecha o menu ao tocar no overlay
-if (navOverlay) {
-    navOverlay.addEventListener('click', closeMenu);
+
+// Fecha o menu ao clicar em qualquer link de navegação (exceto links externos)
+navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        // Só fecha se for um link de âncora (#) ou interno
+        if (href && (href.startsWith('#') || !href.startsWith('http'))) {
+            // Pequeno delay para garantir que a navegação aconteça
+            setTimeout(() => {
+                closeMenu();
+            }, 100);
+        }
+    });
+});
+
+// Fecha o menu ao pressionar ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navMenu && navMenu.classList.contains('open-menu')) {
+        closeMenu();
+    }
+});
+
+// Previne que cliques dentro do menu fechem o menu
+if (navMenu) {
+    navMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 }
 
-// Fecha o menu ao clicar em qualquer link de navegação (comum em menus mobile)
-navLinks.forEach(n => n.addEventListener('click', closeMenu));
+// Garante que o menu comece fechado ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    if (navMenu && document.body) {
+        navMenu.classList.remove('open-menu');
+        document.body.classList.remove('menu-open');
+        if (navToggle) {
+            navToggle.setAttribute('aria-expanded', 'false');
+        }
+    }
+});
 
-/*==================== FIM MENU SHOW Y HIDDEN (REFAZER) ====================*/
+// Garante que o menu fecha ao redimensionar a tela (se for desktop)
+window.addEventListener('resize', function() {
+    if (window.innerWidth >= 768 && navMenu && navMenu.classList.contains('open-menu')) {
+        closeMenu();
+    }
+});
+
+/*==================== FIM MENU SANDUÍCHE MODERNO ====================*/
 
 /*==================== ACCORDION SKILLS ====================*/
 const skillsContent = document.getElementsByClassName('skills__content'),
@@ -396,36 +445,6 @@ if ('IntersectionObserver' in window) {
 }
 
 /*==================== ACCESSIBILITY IMPROVEMENTS ====================*/
-// Skip to main content
-document.addEventListener('DOMContentLoaded', function() {
-    const skipLink = document.createElement('a');
-    skipLink.href = '#main';
-    skipLink.textContent = 'Pular para o conteúdo principal';
-    skipLink.className = 'skip-link';
-    skipLink.style.cssText = `
-        position: absolute;
-        top: -40px;
-        left: 6px;
-        background: var(--primary-color);
-        color: white;
-        padding: 8px;
-        text-decoration: none;
-        border-radius: 4px;
-        z-index: 1000;
-        transition: top 0.3s;
-    `;
-    
-    skipLink.addEventListener('focus', function() {
-        this.style.top = '6px';
-    });
-    
-    skipLink.addEventListener('blur', function() {
-        this.style.top = '-40px';
-    });
-    
-    document.body.insertBefore(skipLink, document.body.firstChild);
-});
-
 // Focus management for mobile menu - REMOVIDO POIS ESTÁ NA NOVA LÓGICA DO MENU
 /*
 const navToggleBtn = document.getElementById('nav-toggle');
