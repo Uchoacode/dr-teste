@@ -1,48 +1,62 @@
-/*==================== MENU SHOW Y HIDDEN ====================*/
+/*==================== MENU SHOW Y HIDDEN (REFAZER) ====================*/
 const navMenu = document.getElementById('nav-menu'),
       navToggle = document.getElementById('nav-toggle'),
-      navClose = document.getElementById('nav-close')
-const navOverlay = document.getElementById('nav-overlay')
+      navClose = document.getElementById('nav-close'),
+      navOverlay = document.getElementById('nav-overlay'),
+      navLinks = document.querySelectorAll('.nav__link');
 
-/*===== MENU SHOW =====*/
-/* Validate if constant exists */
-if(navToggle){
-    navToggle.addEventListener('click', () =>{
-        // CORREÇÃO: Usa a classe 'open-menu' para abrir o menu lateral
-        navMenu.classList.add('open-menu')
-        document.body.classList.add('menu-open')
-    })
+/**
+ * Fecha o menu sanduíche e remove as classes de estado.
+ */
+function closeMenu() {
+    if (navMenu && document.body) {
+        navMenu.classList.remove('open-menu');
+        document.body.classList.remove('menu-open');
+        // Acessibilidade: Atualiza o estado do botão toggle
+        if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+    }
 }
 
-/*===== MENU HIDDEN =====*/
-/* Validate if constant exists */
-if(navClose){
-    navClose.addEventListener('click', () =>{
-        // CORREÇÃO: Usa a classe 'open-menu' para fechar o menu lateral
-        navMenu.classList.remove('open-menu')
-        document.body.classList.remove('menu-open')
-    })
+/**
+ * Abre o menu sanduíche e adiciona as classes de estado.
+ */
+function openMenu() {
+    if (navMenu && document.body) {
+        navMenu.classList.add('open-menu');
+        document.body.classList.add('menu-open');
+        // Acessibilidade: Atualiza o estado do botão toggle
+        if (navToggle) navToggle.setAttribute('aria-expanded', 'true');
+        
+        // Acessibilidade: Move o foco para o primeiro link do menu
+        setTimeout(() => {
+            const firstNavLink = navMenu.querySelector('.nav__link');
+            if (firstNavLink) firstNavLink.focus();
+        }, 100);
+    }
+}
+
+/*===== MENU SHOW: Abre ao clicar no sanduíche =====*/
+if (navToggle) {
+    navToggle.addEventListener('click', openMenu);
+    // Adiciona atributos de acessibilidade
+    navToggle.setAttribute('aria-controls', 'nav-menu');
+    navToggle.setAttribute('aria-expanded', 'false');
+}
+
+/*===== MENU HIDDEN: Fecha ao clicar no X, Overlay ou Link =====*/
+if (navClose) {
+    navClose.addEventListener('click', closeMenu);
 }
 
 // Fecha o menu ao tocar no overlay
 if (navOverlay) {
-    navOverlay.addEventListener('click', () => {
-        navMenu.classList.remove('open-menu')
-        document.body.classList.remove('menu-open')
-    })
+    navOverlay.addEventListener('click', closeMenu);
 }
 
-/*==================== REMOVE MENU MOBILE ====================*/
-const navLink = document.querySelectorAll('.nav__link')
+// Fecha o menu ao clicar em qualquer link de navegação (comum em menus mobile)
+navLinks.forEach(n => n.addEventListener('click', closeMenu));
 
-function linkAction(){
-    const navMenu = document.getElementById('nav-menu')
-    // When we click on each nav__link, we remove the open-menu class
-    // CORREÇÃO: Remove a classe 'open-menu'
-    navMenu.classList.remove('open-menu')
-    document.body.classList.remove('menu-open')
-}
-navLink.forEach(n => n.addEventListener('click', linkAction))
+/*==================== FIM MENU SHOW Y HIDDEN (REFAZER) ====================*/
 
 /*==================== ACCORDION SKILLS ====================*/
 const skillsContent = document.getElementsByClassName('skills__content'),
@@ -412,7 +426,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.insertBefore(skipLink, document.body.firstChild);
 });
 
-// Focus management for mobile menu
+// Focus management for mobile menu - REMOVIDO POIS ESTÁ NA NOVA LÓGICA DO MENU
+/*
 const navToggleBtn = document.getElementById('nav-toggle');
 const navCloseBtn = document.getElementById('nav-close');
 
@@ -424,6 +439,7 @@ if (navToggleBtn) {
         }, 100);
     });
 }
+*/
 
 /*==================== PRELOADER ====================*/
 document.addEventListener('DOMContentLoaded', function() {
