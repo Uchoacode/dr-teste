@@ -356,30 +356,45 @@ const statsObserver = new IntersectionObserver((entries, observer) => {
 }, statsObserverOptions);
 
 
-/*==================== INTERSECTION OBSERVER FOR FADE-IN ANIMATIONS ====================*/
+/*==================== SISTEMA PADRONIZADO DE ANIMAÇÕES - INTERSECTION OBSERVER ====================*/
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
+const animationObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('animate-fade-in-up');
+            entry.target.style.opacity = '1';
+            // Remove o observer após animar para otimizar performance
+            animationObserver.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Observe elements for animation
-document.addEventListener('DOMContentLoaded', function() {
-    // MODIFICAÇÃO: Incluído mais elementos para animação e configurado o estado inicial
-    const elementsToAnimate = document.querySelectorAll('.specialty__card, .education__item, .contact__item, .video__card, .stat__item');
+// Função para inicializar animações em elementos
+function initAnimations() {
+    // Seletores padronizados para todas as páginas
+    const elementsToAnimate = document.querySelectorAll(
+        '.specialty__card, .education__item, .contact__item, .video__card, .stat__item, ' +
+        '.pillar__card, .category__card, .post__card, .post__item, .sidebar-card, ' +
+        '.related-post, .blog-hero__content, .post-header__content'
+    );
+    
     elementsToAnimate.forEach(el => {
-        // Define o estado inicial e sugere otimização para animação mais fluida
+        // Define o estado inicial para animação
+        el.classList.add('animate-on-scroll');
         el.style.opacity = '0';
         el.style.willChange = 'transform, opacity';
-        observer.observe(el);
+        animationObserver.observe(el);
     });
+}
+
+// Observe elements for animation
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializa animações padronizadas
+    initAnimations();
     
     // Inicia o observer de contagem
     const aboutSection = document.querySelector('.about');

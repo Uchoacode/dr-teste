@@ -457,29 +457,37 @@ function sharePost(platform, url, title) {
     }
 }
 
-// Add fade-in animation for posts
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            // Usar a classe de animação definida no CSS principal
-            entry.target.classList.add('animate-fade-in-up');
-            entry.target.style.opacity = '1'; // Garantir visibilidade
-        }
-    });
-}, observerOptions);
-
-// Observe all post cards
+// Sistema de animações padronizado - usa o mesmo observer do main.js se disponível
+// Se não estiver disponível, cria um próprio
 document.addEventListener('DOMContentLoaded', function() {
-    const posts = document.querySelectorAll('.post__card, .post__item');
-    posts.forEach(post => {
-        // Configura o estado inicial para que a animação possa ser aplicada
-        post.style.opacity = '0';
-        post.style.willChange = 'transform, opacity'; // Otimização de performance
-        observer.observe(post);
-    });
+    // Verifica se já existe um sistema de animação global
+    if (typeof initAnimations === 'function') {
+        // Se o sistema principal já existe, apenas inicializa
+        setTimeout(initAnimations, 100);
+    } else {
+        // Cria um observer local para o blog
+        const blogObserverOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const blogObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                    entry.target.style.opacity = '1';
+                    blogObserver.unobserve(entry.target);
+                }
+            });
+        }, blogObserverOptions);
+
+        // Observa todos os elementos do blog
+        const blogElements = document.querySelectorAll('.post__card, .post__item, .category__card, .sidebar-card, .related-post');
+        blogElements.forEach(el => {
+            el.classList.add('animate-on-scroll');
+            el.style.opacity = '0';
+            el.style.willChange = 'transform, opacity';
+            blogObserver.observe(el);
+        });
+    }
 });
