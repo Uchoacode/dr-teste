@@ -1903,6 +1903,39 @@ body.fade-in {
     bottom: 1.5rem;
     left: 3rem;
     z-index: 500;
+    /* Animação para chamar atenção */
+    animation: switchAttention 3s ease-in-out infinite;
+}
+
+/* Animação de atenção para o switch */
+@keyframes switchAttention {
+    0%, 100% {
+        transform: translateX(0) scale(1);
+        box-shadow: 0 2px 8px rgba(0, 114, 168, 0.2);
+    }
+    25% {
+        transform: translateX(-3px) scale(1.02);
+        box-shadow: 0 4px 12px rgba(0, 114, 168, 0.3);
+    }
+    50% {
+        transform: translateX(3px) scale(1.02);
+        box-shadow: 0 4px 12px rgba(0, 114, 168, 0.3);
+    }
+    75% {
+        transform: translateX(-3px) scale(1.02);
+        box-shadow: 0 4px 12px rgba(0, 114, 168, 0.3);
+    }
+}
+
+/* Pausa a animação quando o usuário interage */
+.site-switcher:hover {
+    animation-play-state: paused;
+    transform: translateX(0) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 114, 168, 0.4);
+}
+
+.site-switcher:active {
+    transform: scale(0.98);
 }
 
 .site-switcher .svg-icon {
@@ -1923,6 +1956,24 @@ body.fade-in {
     padding: 3px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    position: relative;
+    /* Animação de pulso no toggle */
+    animation: togglePulse 2s ease-in-out infinite;
+}
+
+/* Animação de pulso no toggle switch */
+@keyframes togglePulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(0, 114, 168, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(0, 114, 168, 0);
+    }
+}
+
+/* Pausa a animação no hover */
+.site-switcher:hover .toggle-switch {
+    animation-play-state: paused;
 }
 
 .toggle-slider {
