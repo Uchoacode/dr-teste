@@ -38,13 +38,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Newsletter form submission
     if (newsletterForm) {
         newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            
+            // Pega o valor do campo de e-mail (agora com name="email" no HTML)
             const email = this.querySelector('input[type="email"]').value;
             
-            if (email) {
-                // Simulate newsletter subscription
-                showNotification('Obrigado! Você receberá nossos novos artigos em breve.', 'success');
-                this.reset();
+            // Permite submissão nativa se o campo de e-mail não estiver vazio (deixa o browser e o FormSubmit validarem o formato)
+            if (!email) {
+                e.preventDefault(); // Impede submissão se o campo estiver vazio
+                // Recomenda-se adicionar uma notificação de erro aqui, se houver função de notificação disponível.
+            } else {
+                // O formulário será enviado nativamente para o FormSubmit.co
+                // Simula feedback de envio (se a função showNotification estiver definida no main.js)
+                if (typeof showNotification === 'function') {
+                    showNotification('Enviando sua inscrição...', 'info');
+                }
             }
         });
     }

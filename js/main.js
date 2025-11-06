@@ -816,19 +816,19 @@ function initNewsletterPopup() {
         });
     }
 
-    // 4. Submissão do Formulário (Reutiliza a lógica de validação/notificação)
+    // 4. Submissão do Formulário (Permite submissão nativa para FormSubmit se a validação passar)
     if (form) {
         form.addEventListener('submit', function(e) {
-            e.preventDefault();
             
-            // Assume que validateForm e showNotification já existem no main.js
-            if (validateForm(this)) { 
-                // Simula envio de dados e mostra notificação de sucesso
-                showNotification('Inscrição realizada com sucesso! Você receberá nosso conteúdo em breve.', 'success');
-                closeModal(); // Fecha o modal após o sucesso
-                this.reset();
-            } else {
+            // Só previne o envio se a validação JS falhar
+            if (!validateForm(this)) { 
+                e.preventDefault();
                 showNotification('Por favor, insira um e-mail válido.', 'error');
+            } else {
+                // Se o formulário for válido, permite a submissão nativa (para FormSubmit)
+                // Exibe uma notificação de envio e fecha o modal antes do redirecionamento
+                showNotification('Enviando seu e-mail...', 'info');
+                closeModal(); 
             }
         });
     }
